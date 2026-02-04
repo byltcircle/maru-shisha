@@ -2,270 +2,204 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>圓－休憩所 - Maru's Studio</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&display=swap" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>職人水煙調配譜</title>
     <style>
         :root {
-            --bg-dark: #0f0f0f; /* 極深色室內基調 */
-            --ink-light: #e0e0e0; 
-            --gold: #d4a373; /* 暖黃光/金屬色 */
-            --accent: #8e9aaf; 
-            --smoke-white: rgba(255, 255, 255, 0.12);
+            --gold: #d4af37;
+            --warm-glow: rgba(255, 190, 50, 0.25);
         }
 
-        body { 
-            background-color: var(--bg-dark);
-            /* 模擬室內角落微光 */
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(212, 163, 115, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(212, 163, 115, 0.05) 0%, transparent 40%);
-            background-attachment: fixed;
-            color: var(--ink-light); 
-            font-family: "Noto Serif TC", serif; 
-            margin: 0; padding: 0; 
-            display: flex; flex-direction: column; align-items: center;
-            overflow-x: hidden; min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #080808;
+            color: #eee;
+            font-family: "PingFang TC", sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        
-        /* --- 水煙煙霧動效 --- */
-        .smoke-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none;
+
+        /* 暖黃色閃動光暈層 */
+        .glow-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, var(--warm-glow) 0%, rgba(0,0,0,0) 75%);
+            z-index: -2;
+            animation: breathe 7s infinite alternate ease-in-out;
+            pointer-events: none;
         }
-        .smoke-trace {
-            position: absolute;
-            background: radial-gradient(ellipse at center, var(--smoke-white) 0%, rgba(255,255,255,0) 75%);
-            filter: blur(40px);
+
+        @keyframes breathe {
+            0% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        /* 強化：白色大濃煙效果 */
+        .smoke-cloud {
+            position: fixed;
+            background: radial-gradient(circle, 
+                rgba(255, 255, 255, 0.95) 0%, 
+                rgba(255, 255, 255, 0.5) 40%, 
+                rgba(255, 255, 255, 0) 70%);
             border-radius: 50%;
-            opacity: 0;
-            animation: smokeRise 18s infinite linear;
-        }
-        .s1 { width: 400px; height: 180px; bottom: -100px; left: -50px; animation-duration: 20s; }
-        .s2 { width: 500px; height: 220px; bottom: -120px; right: -80px; animation-duration: 25s; animation-delay: -7s; }
-        .s3 { width: 300px; height: 150px; bottom: -80px; left: 30%; animation-duration: 22s; animation-delay: -12s; }
-
-        @keyframes smokeRise {
-            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.4; }
-            50% { transform: translateY(-40vh) scale(1.5) rotate(15deg); opacity: 0.2; }
-            100% { transform: translateY(-100vh) scale(2.2) rotate(-15deg); opacity: 0; }
+            filter: blur(55px);
+            z-index: -1;
+            pointer-events: none;
+            animation: rise 16s linear infinite;
         }
 
-        header { text-align: center; margin: 60px 0 40px; z-index: 10; }
-        h1 { font-size: 2.4rem; letter-spacing: 0.5em; color: var(--gold); margin: 0; text-indent: 0.5em; text-shadow: 0 0 20px rgba(212, 163, 115, 0.2); }
-        .eng-title { font-size: 0.75rem; letter-spacing: 0.4em; color: rgba(255,255,255,0.25); margin-top: 10px; }
-
-        .nav-tabs { display: flex; gap: 12px; margin-bottom: 35px; z-index: 10; }
-        .tab-btn { 
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 10px 24px; 
-            border-radius: 30px; cursor: pointer; color: #888; font-family: inherit; transition: 0.3s;
-        }
-        .tab-btn.active { background: var(--gold); color: #121212; font-weight: 600; border-color: var(--gold); }
-
-        .main-container {
-            width: 92%; max-width: 500px; 
-            background: rgba(30, 30, 30, 0.6); 
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 40px; padding: 45px 25px; 
-            box-shadow: 0 25px 60px rgba(0,0,0,0.5); 
-            margin-bottom: 60px; box-sizing: border-box; z-index: 5;
+        @keyframes rise {
+            0% { transform: translate(-30%, 120%) scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.8; }
+            100% { transform: translate(40%, -150%) scale(6); opacity: 0; }
         }
 
-        .page-content { display: none; }
-        .active-page { display: block !important; animation: fadeIn 0.6s ease; }
-
-        /* 職人清單 */
-        .menu-list { display: flex; flex-direction: column; gap: 20px; }
-        .card { 
-            background: rgba(255, 255, 255, 0.03); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.05); 
-            padding: 28px 25px; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden;
+        .container {
+            width: 90%;
+            max-width: 500px;
+            padding: 40px 0;
+            z-index: 1;
         }
-        .card:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.06); }
 
-        .card-illustration { position: absolute; right: 15px; top: 15px; width: 65px; height: 65px; opacity: 0.7; filter: grayscale(0.2); }
-        .card-illustration img { width: 100%; height: auto; object-fit: contain; }
-
-        .card-eng { font-size: 0.65rem; color: #666; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
-        .card-title { font-size: 1.45rem; font-weight: 600; color: #fff; margin-bottom: 18px; padding-right: 60px; }
-        
-        /* 評分點 */
-        .flavor-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 18px; }
-        .stat-row { display: flex; align-items: center; font-size: 0.85rem; color: #999; }
-        .dots { display: flex; gap: 5px; margin-left: 10px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: #2a2a2a; }
-        .dot.active { background: var(--gold); box-shadow: 0 0 8px rgba(212, 163, 115, 0.6); }
-
-        /* 自由調配 */
-        .blend-section { background: rgba(0,0,0,0.25); padding: 25px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
-        .blend-title { font-weight: 600; margin-bottom: 18px; font-size: 1rem; color: var(--gold); }
-        .blend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; }
-        .blend-item { 
-            background: rgba(255,255,255,0.04); padding: 12px 5px; text-align: center; 
-            border-radius: 12px; font-size: 0.85rem; color: #999; border: 1px solid rgba(255,255,255,0.08); transition: 0.2s;
+        h1 {
+            color: var(--gold);
+            text-align: center;
+            letter-spacing: 5px;
+            font-weight: 300;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+            margin-bottom: 40px;
         }
-        .blend-item.selected { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; }
 
-        .order-btn { 
-            background: var(--gold); color: #121212; border: none; 
-            padding: 20px; width: 100%; border-radius: 50px; 
-            font-weight: 600; cursor: pointer; font-size: 1.15rem; margin-top: 25px; font-family: inherit;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        .recipe-card {
+            background: rgba(25, 25, 25, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        
-        .selection-bar { background: rgba(0,0,0,0.4); padding: 18px; border-radius: 18px; border: 1px dashed var(--gold); margin-top: 15px; text-align: center; font-size: 0.9rem; }
 
-        /* 彈窗 */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(12px); }
-        .modal-content { background: #1a1a1a; padding: 45px 30px; width: 85%; max-width: 400px; border-radius: 40px; text-align: center; border: 1px solid #333; }
-        .m-intro { font-size: 0.95rem; color: #999; margin: 25px 0; line-height: 1.7; font-style: italic; }
-        .m-recipe-container { background: #111; padding: 22px; border-radius: 22px; text-align: left; border: 1px solid #252525; }
-        .recipe-line { display: block; font-size: 0.95rem; color: #ccc; margin-bottom: 6px; }
+        .recipe-title {
+            color: var(--gold);
+            font-size: 1.25rem;
+            border-left: 3px solid var(--gold);
+            padding-left: 12px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-        .footer-note { text-align: center; color: #444; font-size: 0.8rem; margin-top: 40px; padding-bottom: 50px; letter-spacing: 0.2em; }
+        .ingredient-list {
+            margin: 0 0 15px 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .ingredient-list li {
+            background: rgba(255, 255, 255, 0.08);
+            margin: 6px 0;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .desc {
+            font-size: 0.8rem;
+            color: #999;
+            line-height: 1.6;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
 
-    <div class="smoke-container">
-        <div class="smoke-trace s1"></div>
-        <div class="smoke-trace s2"></div>
-        <div class="smoke-trace s3"></div>
-    </div>
+    <div class="glow-overlay"></div>
 
-    <header>
-        <h1>圓－休憩所</h1>
-        <div class="eng-title">MARU'S SHISHA STUDIO</div>
-    </header>
-
-    <div class="nav-tabs">
-        <button id="btn-menu" class="tab-btn active" onclick="switchPage('menu')">職人煙譜</button>
-        <button id="btn-custom" class="tab-btn" onclick="switchPage('custom')">自由調配</button>
-    </div>
-
-    <div class="main-container">
-        <div id="page-menu" class="page-content active-page">
-            <div class="menu-list" id="menu-container"></div>
-        </div>
-
-        <div id="page-custom" class="page-content">
-            <div class="blend-section">
-                <div class="blend-title">✿ 黑草系列 (Dark Leaf)</div>
-                <div class="blend-grid" id="blend-dark"></div>
-            </div>
-            <div class="blend-section">
-                <div class="blend-title">✿ 果凍系列 (Jelly)</div>
-                <div class="blend-grid" id="blend-jelly"></div>
-            </div>
-            <div class="blend-section">
-                <div class="blend-title">✿ 紅草系列 (Red Leaf)</div>
-                <div class="blend-grid" id="blend-red"></div>
-            </div>
-            <div class="selection-bar">目前選擇：<br><span id="selection-display" style="font-weight: 600; color:var(--gold);">無</span></div>
-            <button class="order-btn" onclick="confirmCustomOrder()">確認調配 (發送訂單)</button>
-        </div>
-        <p class="footer-note">心、落ち着く。圓の意味。</p>
-    </div>
-
-    <div id="modal" class="modal" onclick="if(event.target==this)closeModal()">
-        <div class="modal-content">
-            <h2 id="m-title" style="color: var(--gold); margin:0;"></h2>
-            <div id="m-intro" class="m-intro"></div>
-            <div class="m-recipe-container">
-                <strong style="color:var(--gold); display:block; margin-bottom:12px; font-size:0.9rem;">職人配比建議：</strong>
-                <div id="m-recipe-list"></div>
-            </div>
-            <button class="order-btn" onclick="confirmOrder()">確認注文 (發送訂單)</button>
-            <p style="margin-top:25px; color:#555; cursor:pointer; font-size:0.9rem;" onclick="closeModal()">✕ 返回清單</p>
-        </div>
+    <div class="container">
+        <h1>職人專屬配方</h1>
+        <div id="recipe-box"></div>
     </div>
 
     <script>
-        const darks = ["茉莉花", "紅茶", "針葉", "琴酒小黃瓜", "綜合水果", "檸檬萊姆", "檸檬糖", "費約果檸檬水"];
-        const jelliesOnly = ["希臘優格", "甜薯", "咖啡", "桂花", "琴酒", "百香果石榴"];
-        const redLeaf = ["Paan Ras"];
-
-        const menuData = [
-            { zh: "秋日茶亭", en: "Autumn Tea", img: "tea.png", intro: "焙茶與鮮奶交織，如同在秋季午後的榻榻米上，感受一抹溫潤的黃昏。", recipe: ["焙茶 50%", "鮮奶 30%", "黑糖 20%"], stats: {濃:4, 甜:3, 酸:1, 爽:2} },
-            { zh: "午夜電解質", en: "Midnight Fizz", img: "fizz.png", intro: "清爽的酸度伴隨氣泡感，像是在寂靜中點亮一盞螢光燈。", recipe: ["寶礦力 40%", "檸檬 30%", "蘇打 30%"], stats: {濃:4, 甜:2, 酸:5, 爽:4} },
-            { zh: "翠玉初戀", en: "Jade First Love", img: "jade.png", intro: "青澀酸甜的果香，如同初次見面時的驚鴻一瞥。", recipe: ["費約果 40%", "檸檬萊姆 30%", "百香果 30%"], stats: {濃:3, 甜:2, 酸:4, 爽:5} },
-            { zh: "小圓雲煙", en: "Maru's Fluffy", img: "fluffy.png", intro: "優格與甜薯的絲滑結合，把自己埋進最軟的雲朵裡。", recipe: ["優格 40%", "甜薯 30%", "綜合水果 30%"], stats: {濃:4, 甜:4, 酸:1, 爽:2} },
-            { zh: "烏薩奇之光", en: "Usagi Light", img: "usagi.png", intro: "純淨的桂花與茉莉，是混亂夜晚中唯一讓你平靜的光。", recipe: ["桂花 50%", "茉莉 30%", "紅茶 20%"], stats: {濃:2, 甜:3, 酸:1, 爽:4} },
-            { zh: "莫斯科紳士", en: "Moscow Gent", img: "gent.png", intro: "琴酒與小黃瓜的高冷基調，優雅且深沉。", recipe: ["琴酒小黃瓜 50%", "琴酒 30%", "檸檬萊姆 20%"], stats: {濃:3, 甜:1, 酸:3, 爽:5} }
+        // 嚴格根據 15 款現有品項設計的 7 種配方
+        const recipes = [
+            {
+                title: "清幽茶香 (Tea Zen)",
+                items: ["紅茶 50%", "茉莉花 30%", "桂花 20%"],
+                desc: "以黑草紅茶為基底，結合雙花香氣，呈現如現泡茶般的優雅口感。"
+            },
+            {
+                title: "微醺小黃瓜 (Gin Cooler)",
+                items: ["琴酒小黃瓜 60%", "琴酒 30%", "檸檬萊姆 10%"],
+                desc: "雙重琴酒基調加深層次，小黃瓜的清爽在檸檬點綴下更顯透亮。"
+            },
+            {
+                title: "希臘果果優格 (Creamy Fruit)",
+                items: ["希臘優格 50%", "綜合水果 30%", "百香果石榴 20%"],
+                desc: "果凍系列的厚實乳香包裹著酸甜果實感，適合喜歡濃郁煙感的用戶。"
+            },
+            {
+                title: "費約果之森 (Forest Fizz)",
+                items: ["費約果檸檬水 60%", "針葉 20%", "檸檬糖 20%"],
+                desc: "費約果奇異的果香與針葉的木質涼感結合，獨特且不膩口。"
+            },
+            {
+                title: "晨間拿鐵 (Morning Coffee)",
+                items: ["咖啡 60%", "甜薯 40%"],
+                desc: "咖啡的苦甜與甜薯的綿密香氣結合，營造出如同甜點般的溫潤體驗。"
+            },
+            {
+                title: "迷幻香料 (Mystic Paan)",
+                items: ["Paan Ras 40%", "綜合水果 40%", "茉莉花 20%"],
+                desc: "利用紅草經典 Paan 的強烈香料感搭配果香，並由茉莉花收尾。"
+            },
+            {
+                title: "金黃熱帶特調 (Passion Fizz)",
+                items: ["百香果石榴 50%", "檸檬萊姆 30%", "檸檬糖 20%"],
+                desc: "純粹的酸爽組合，激發味蕾，是極佳的解膩選擇。"
+            }
         ];
 
-        function createDots(score) {
-            let h = ''; for(let i=1; i<=5; i++) h += `<div class="dot ${i<=score?'active':''}"></div>`; return h;
-        }
-
-        function switchPage(p) {
-            document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active-page'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            if(p === 'menu') {
-                document.getElementById('page-menu').classList.add('active-page');
-                document.getElementById('btn-menu').classList.add('active');
-            } else {
-                document.getElementById('page-custom').classList.add('active-page');
-                document.getElementById('btn-custom').classList.add('active');
-                renderCustom();
-            }
-        }
-
-        const container = document.getElementById('menu-container');
-        menuData.forEach((r, i) => {
-            container.innerHTML += `
-                <div class="card" onclick="openModal(${i})">
-                    <div class="card-illustration"><img src="${r.img}" alt=""></div>
-                    <div class="card-eng">${r.en}</div>
-                    <div class="card-title">${r.zh}</div>
-                    <div class="flavor-stats">
-                        <div class="stat-row">濃 ${createDots(r.stats.濃)}</div>
-                        <div class="stat-row">甜 ${createDots(r.stats.甜)}</div>
-                        <div class="stat-row">酸 ${createDots(r.stats.酸)}</div>
-                        <div class="stat-row">爽 ${createDots(r.stats.爽)}</div>
-                    </div>
-                </div>`;
+        const box = document.getElementById('recipe-box');
+        recipes.forEach(r => {
+            box.innerHTML += `
+                <div class="recipe-card">
+                    <div class="recipe-title">${r.title}</div>
+                    <ul class="ingredient-list">
+                        ${r.items.map(i => `<li>${i}</li>`).join('')}
+                    </ul>
+                    <div class="desc">${r.desc}</div>
+                </div>
+            `;
         });
 
-        const selectedFlavors = new Set();
-        function renderCustom() {
-            document.getElementById('blend-dark').innerHTML = darks.map(f => `<div class="blend-item ${selectedFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
-            document.getElementById('blend-jelly').innerHTML = jelliesOnly.map(f => `<div class="blend-item ${selectedFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
-            document.getElementById('blend-red').innerHTML = redLeaf.map(f => `<div class="blend-item ${selectedFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
-            document.getElementById('selection-display').innerText = selectedFlavors.size ? Array.from(selectedFlavors).join(' + ') : '無';
+        // 大濃煙生成 logic
+        function createHeavySmoke() {
+            const smoke = document.createElement('div');
+            smoke.className = 'smoke-cloud';
+            const size = Math.random() * 400 + 350 + 'px'; 
+            smoke.style.width = size;
+            smoke.style.height = size;
+            smoke.style.left = Math.random() * 110 - 5 + 'vw';
+            smoke.style.bottom = '-350px';
+            smoke.style.animationDuration = Math.random() * 10 + 12 + 's';
+            document.body.appendChild(smoke);
+            setTimeout(() => smoke.remove(), 16000);
         }
 
-        function toggleF(f) {
-            selectedFlavors.has(f) ? selectedFlavors.delete(f) : selectedFlavors.add(f);
-            renderCustom();
-        }
-
-        let curPick = "", curRecipeText = "";
-        function openModal(i) {
-            const data = menuData[i];
-            curPick = data.zh; curRecipeText = data.recipe.join(' + ');
-            document.getElementById('m-title').innerText = data.zh;
-            document.getElementById('m-intro').innerText = `「${data.intro}」`;
-            document.getElementById('m-recipe-list').innerHTML = data.recipe.map(line => `<span class="recipe-line">· ${line}</span>`).join('');
-            document.getElementById('modal').style.display = 'flex';
-        }
-        function closeModal() { document.getElementById('modal').style.display = 'none'; }
-
-        function confirmOrder() {
-            const msg = `【圓－休憩所】我想點購職人煙譜：${curPick}\n配方參考：${curRecipeText}`;
-            window.location.href = `https://line.me/R/msg/text/?${encodeURIComponent(msg)}`;
-        }
-
-        function confirmCustomOrder() {
-            if (!selectedFlavors.size) return alert('請先選擇口味。');
-            const msg = `【圓－休憩所】我想點購自由調配：\n口味：${Array.from(selectedFlavors).join(' + ')}`;
-            window.location.href = `https://line.me/R/msg/text/?${encodeURIComponent(msg)}`;
-        }
+        setInterval(createHeavySmoke, 2500);
+        for(let i=0; i<6; i++) createHeavySmoke(); // 預載煙霧
     </script>
 </body>
 </html>
