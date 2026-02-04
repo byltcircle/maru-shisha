@@ -3,82 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>圓圓工作室 - Maru's Studio</title>
-    
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="圓圓工作室">
-    <link rel="apple-touch-icon" href="https://img.icons8.com/clouds/512/cloud.png"> 
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500&display=swap" rel="stylesheet">
+    <title>圓－休憩所 - Maru's Shisha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500&family=Noto+Sans+JP:wght@300;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --washi: #fefcf9; --chiikawa: #e0f2f7; --ink: #5a5552; --accent: #90d4e0;
-            --cloud-bg: #f0f8ff;
+            --bg-pink: #ffe5ec; --bg-blue: #d8e2dc; --bg-yellow: #fff2af;
+            --primary-red: #ae2012; --ink: #5a5552; --accent: #90d4e0;
         }
         body { 
-            background-color: var(--cloud-bg); 
-            background-image: radial-gradient(#e6f2f9 1px, transparent 1px); 
-            background-size: 24px 24px; 
-            color: var(--ink); 
-            font-family: "Noto Serif TC", serif; 
-            margin: 0; padding: 10px; 
-            display: flex; flex-direction: column; align-items: center;
-            -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden; position: relative;
+            background: linear-gradient(135deg, var(--bg-pink) 0%, var(--bg-blue) 100%);
+            color: var(--ink); font-family: 'Noto Sans JP', "Noto Serif TC", serif; 
+            margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; overflow-x: hidden; position: relative;
         }
         
-        /* 雲朵動畫 */
-        .cloud {
-            position: absolute; background: rgba(255, 255, 255, 0.8); border-radius: 50%;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); opacity: 0.6;
-            animation: float 20s infinite ease-in-out; z-index: -1;
+        /* 雲朵動畫加強版 */
+        .cloud-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .cloud-svg {
+            position: absolute; fill: white; stroke: var(--bg-yellow); stroke-width: 2px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.05));
+            animation: floatMove 25s infinite linear; opacity: 0.8;
         }
-        .cloud:nth-child(1) { width: 120px; height: 70px; top: 10%; left: -10%; }
-        .cloud:nth-child(2) { width: 90px; height: 50px; top: 30%; right: -15%; animation-delay: 5s; }
-        .cloud:nth-child(3) { width: 150px; height: 80px; bottom: 15%; left: -5%; animation-delay: 10s; }
-        
-        @keyframes float {
-            0%, 100% { transform: translateX(0) translateY(0); opacity: 0.6; }
-            50% { transform: translateX(50px) translateY(20px); opacity: 0.8; }
+        .c1 { top: 10%; width: 180px; left: -10%; }
+        .c2 { top: 65%; width: 250px; left: -20%; animation-duration: 40s; animation-delay: -5s; }
+        @keyframes floatMove { from { transform: translateX(-20%); } to { transform: translateX(110vw); } }
+
+        header { text-align: center; margin: 40px 0; }
+        h1 { font-size: 2.2rem; letter-spacing: 0.5em; color: var(--primary-red); margin: 0; text-indent: 0.5em; }
+        .eng-title { font-size: 0.7rem; letter-spacing: 0.3em; color: #bbb; text-transform: uppercase; margin-top: 10px; font-weight: bold; }
+
+        .nav-tabs { display: flex; gap: 10px; margin-bottom: 30px; }
+        .tab-btn { background: #fff; border: 1.5px solid #eee; padding: 8px 15px; border-radius: 25px; cursor: pointer; color: #999; font-family: inherit; font-size: 0.9rem; transition: 0.3s; }
+        .tab-btn.active { background: var(--bg-blue); color: var(--ink); border-color: var(--accent); font-weight: bold; }
+
+        .main-card { 
+            width: 92%; max-width: 650px; background: rgba(255,255,255,0.92); 
+            border-radius: 35px; padding: 60px 40px; /* 大 Padding 解決字貼邊 */
+            box-shadow: 0 15px 45px rgba(0,0,0,0.05); margin-bottom: 40px; box-sizing: border-box;
         }
-
-        header { text-align: center; margin: 35px 0; }
-        h1 { font-weight: 500; font-size: 1.8rem; margin: 0; color: #444; }
-        .eng-title { font-size: 0.7rem; letter-spacing: 0.3em; color: #bbb; text-transform: uppercase; margin-top: 8px; font-weight: bold; }
-        .slogan { font-size: 0.85rem; color: #999; margin-top: 20px; }
-
-        .nav-tabs { display: flex; gap: 12px; margin-bottom: 30px; }
-        .tab-btn { background: #fff; border: 1.5px solid #eee; padding: 8px 20px; border-radius: 25px; cursor: pointer; color: #999; font-family: inherit; font-size: 0.95rem; transition: 0.3s; }
-        .tab-btn.active { background: var(--chiikawa); color: var(--ink); border-color: var(--accent); font-weight: bold; }
-
-        #inventory-list, #menu-grid, #custom-blend { width: 100%; max-width: 600px; display: none; padding-bottom: 40px; }
+        .section { display: none; }
         .active-section { display: block !important; }
 
-        .card { background: #fff; border-radius: 15px; border: 1px solid #f0f0f0; cursor: pointer; transition: 0.4s; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px; }
-        .card-art { width: 100%; height: 140px; position: relative; display: flex; align-items: center; justify-content: center; }
-        .watercolor { position: absolute; width: 100%; height: 100%; filter: blur(25px); opacity: 0.4; }
-        .illustration { position: relative; font-size: 3rem; z-index: 2; }
-        .maru-seal { position: absolute; bottom: 10px; right: 10px; width: 30px; height: 30px; border: 1px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 0.7rem; font-weight: bold; background: rgba(255,255,255,0.8); z-index: 3; }
+        /* 菜單網格 */
+        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .card { background: #fff; border-radius: 15px; border: 1px solid #f0f0f0; cursor: pointer; transition: 0.4s; overflow: hidden; }
+        .card-art { height: 100px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .watercolor { position: absolute; width: 100%; height: 100%; filter: blur(20px); opacity: 0.3; }
+        .card-content { padding: 15px; text-align: center; }
 
-        .inv-section, .blend-section { background: white; padding: 20px; border-radius: 20px; border: 1px solid #f0f0f0; margin-bottom: 15px; }
-        .inv-grid, .blend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
-        .inv-item, .blend-item { background: var(--washi); padding: 8px; text-align: center; border-radius: 10px; font-size: 0.8rem; color: #777; border: 1px solid #eee; }
-        .blend-item { cursor: pointer; transition: 0.2s; }
-        .blend-item.selected { background: var(--accent); color: white; border-color: var(--ink); font-weight: bold; }
+        /* 分類區塊 */
+        .blend-section { background: #fff; padding: 20px; border-radius: 20px; border: 1px solid #f0f0f0; margin-bottom: 20px; }
+        .blend-title { font-weight: bold; margin-bottom: 15px; font-size: 1rem; }
+        .blend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; }
+        .blend-item { background: #fefcf9; padding: 10px; text-align: center; border-radius: 10px; font-size: 0.85rem; border: 1px solid #eee; cursor: pointer; transition: 0.2s; }
+        .blend-item.selected { background: var(--accent); color: white; border-color: var(--ink); }
 
+        /* Paan Ras 獨立美學 */
+        .paan-hero { background: var(--bg-yellow); padding: 30px; border-radius: 20px; border: 1px dashed var(--primary-red); text-align: center; }
+
+        .order-btn { background: var(--bg-blue); color: var(--primary-red); border: none; padding: 18px; width: 100%; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-content { background: #fff; padding: 35px; max-width: 400px; width: 85%; border-radius: 25px; border: 2.5px solid var(--accent); }
-        .order-btn { background: var(--chiikawa); color: #d63384; border: none; padding: 18px; width: 100%; border-radius: 50px; font-weight: bold; cursor: pointer; font-family: inherit; font-size: 1rem; }
+        .modal-content { background: #fff; padding: 40px; width: 85%; max-width: 400px; border-radius: 30px; border: 2px solid var(--accent); text-align: center; }
     </style>
 </head>
 <body>
 
-    <div class="cloud"></div><div class="cloud"></div><div class="cloud"></div>
+    <div class="cloud-container">
+        <svg class="cloud-svg c1" viewBox="0 0 100 40"><path d="M20,35 a10,10 0 0,1 0,-20 a15,15 0 0,1 30,0 a12,12 0 0,1 25,5 a10,10 0 0,1 0,15 Z"/></svg>
+        <svg class="cloud-svg c2" viewBox="0 0 100 40"><path d="M10,30 a12,12 0 0,1 0,-24 a18,18 0 0,1 35,0 a15,15 0 0,1 30,10 a12,12 0 0,1 0,14 Z"/></svg>
+    </div>
 
     <header>
-        <h1>圓圓工作室</h1>
-        <div class="eng-title">Maru's Studio</div>
-        <p class="slogan">你的煙譜，由你定義。</p>
+        <h1>圓－休憩所</h1>
+        <div class="eng-title">Maru's Shisha Studio</div>
     </header>
 
     <div class="nav-tabs">
@@ -87,46 +85,55 @@
         <button class="tab-btn" onclick="switchTab('inventory', event)">菸草圖鑑</button>
     </div>
 
-    <div id="menu-grid" class="active-section"></div>
+    <div class="main-card">
+        <div id="menu-grid" class="section active-section grid-container"></div>
 
-    <div id="custom-blend">
-        <div class="blend-section">
-            <div style="color:#f0a1bf; font-weight:bold; margin-bottom:10px;">✿ 黑草系列 (Dark Leaf)</div>
-            <div class="blend-grid" id="blend-dark-flavors"></div>
+        <div id="custom-blend" class="section">
+            <div class="blend-section">
+                <div class="blend-title" style="color:#f0a1bf;">✿ 黑草系列 (Dark Leaf)</div>
+                <div class="blend-grid" id="blend-dark-flavors"></div>
+            </div>
+            <div class="blend-section">
+                <div class="blend-title" style="color:#90e0ef;">✿ 果凍系列 (Jelly)</div>
+                <div class="blend-grid" id="blend-jelly-flavors"></div>
+            </div>
+            <div class="blend-section">
+                <div class="blend-title" style="color:#ae2012;">✿ 紅草系列 (Red Leaf)</div>
+                <div class="blend-grid" id="blend-red-flavors"></div>
+            </div>
+            <div class="paan-hero" id="paan-trigger" onclick="toggleF('Paan Ras')">
+                <div style="font-size:1.5rem; font-weight:bold; color:var(--primary-red);">Paan Ras</div>
+                <div style="font-size:0.8rem; color:#777; margin-top:5px;">獨家靈魂香料 ‧ 點擊添加</div>
+            </div>
+            <div style="background: #fff; padding: 15px; border-radius: 15px; border: 1px dashed var(--accent); margin-top: 20px; text-align:center;">
+                目前選擇：<span id="current-selection-display" style="font-weight: bold;">無</span>
+            </div>
+            <button class="order-btn" onclick="confirmCustomOrder()">確認我的調配 (發送訂單)</button>
         </div>
-        <div class="blend-section">
-            <div style="color:#90e0ef; font-weight:bold; margin-bottom:10px;">✿ 果凍 / 紅草系列 (Jelly / Red)</div>
-            <div class="blend-grid" id="blend-jelly-flavors"></div>
-        </div>
-        <div style="background: #fff; padding: 15px; border-radius: 15px; border: 1px dashed var(--accent); margin-top: 10px;">
-            目前選擇：<span id="current-selection-display" style="font-weight: bold;">無</span>
-        </div>
-        <button class="order-btn" style="margin-top:20px; color:#2a6a96;" onclick="confirmCustomOrder()">確認我的調配 (發送訂單)</button>
-    </div>
 
-    <div id="inventory-list">
-        <div class="inv-section">
-            <div style="color:#f0a1bf; font-weight:bold; margin-bottom:10px;">✿ 黑草 Dark Leaf</div>
-            <div class="inv-grid" id="inv-dark"></div>
+        <div id="inventory-list" class="section">
+            <div class="blend-section"><div class="blend-title">黑草 Dark Leaf</div><div class="blend-grid" id="inv-dark"></div></div>
+            <div class="blend-section"><div class="blend-title">果凍與紅草</div><div class="blend-grid" id="inv-jelly"></div></div>
         </div>
-        <div class="inv-section">
-            <div style="color:#90e0ef; font-weight:bold; margin-bottom:10px;">✿ 果凍 / 紅草 Jelly / Red Leaf</div>
-            <div class="inv-grid" id="inv-jelly"></div>
-        </div>
+        
+        <p style="text-align:center; color:#ccc; font-size:0.8rem; margin-top:30px;">心、落ち着く。圓の意味。</p>
     </div>
 
     <div id="modal" class="modal">
         <div class="modal-content">
-            <h2 id="m-title" style="text-align:center; color:#444;"></h2>
-            <div id="m-recipe" style="background:#fdfaf5; padding:15px; border-radius:15px; margin:20px 0; line-height:1.6;"></div>
+            <h2 id="m-title"></h2>
+            <div id="m-recipe" style="background:#fdfaf5; padding:20px; border-radius:15px; margin:20px 0; text-align:left; line-height:1.6;"></div>
             <button class="order-btn" onclick="confirmOrder()">確認注文 (發送訂單)</button>
-            <p style="text-align:center; margin-top:20px; color:#ccc; cursor:pointer;" onclick="closeModal()">✕ 返回煙譜</p>
+            <p style="margin-top:20px; color:#ccc; cursor:pointer;" onclick="closeModal()">✕ 返回煙譜</p>
         </div>
     </div>
 
     <script>
+        // --- 完整保留你的原始數據資料 ---
         const darks = ["茉莉花", "紅茶", "針葉", "琴酒小黃瓜", "綜合水果", "檸檬萊姆", "檸檬糖", "費約果檸檬水"];
-        const jellies = ["希臘優格", "甜薯", "咖啡", "桂花", "琴酒", "百香果石榴", "Paan Ras"];
+        const jelliesOnly = ["希臘優格", "甜薯", "咖啡", "桂花", "琴酒", "百香果石榴"]; // 這裡分開果凍
+        const redLeaf = ["Paan Ras"]; // 這裡分開紅草（Paan Ras 獨立）
+        const jelliesAll = [...jelliesOnly, ...redLeaf]; // 圖鑑顯示用
 
         const menu = [
             { zh: "翠玉初戀", en: "Jade First Love", icon: "🍋", color: "#d8f3dc", recipe: "費約果檸檬水 40% + 檸檬萊姆 30% + 百香果石榴 30%" },
@@ -137,16 +144,20 @@
         ];
 
         function renderInventory() {
-            document.getElementById('inv-dark').innerHTML = darks.map(d => `<div class="inv-item">${d}</div>`).join('');
-            document.getElementById('inv-jelly').innerHTML = jellies.map(j => `<div class="inv-item">${j}</div>`).join('');
+            document.getElementById('inv-dark').innerHTML = darks.map(d => `<div class="blend-item">${d}</div>`).join('');
+            document.getElementById('inv-jelly').innerHTML = jelliesAll.map(j => `<div class="blend-item">${j}</div>`).join('');
         }
 
         const selectedCustomFlavors = new Set();
         function renderCustomBlend() {
-            const dContainer = document.getElementById('blend-dark-flavors');
-            const jContainer = document.getElementById('blend-jelly-flavors');
-            dContainer.innerHTML = darks.map(f => `<div class="blend-item ${selectedCustomFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
-            jContainer.innerHTML = jellies.map(f => `<div class="blend-item ${selectedCustomFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
+            document.getElementById('blend-dark-flavors').innerHTML = darks.map(f => `<div class="blend-item ${selectedCustomFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
+            document.getElementById('blend-jelly-flavors').innerHTML = jelliesOnly.map(f => `<div class="blend-item ${selectedCustomFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
+            document.getElementById('blend-red-flavors').innerHTML = redLeaf.map(f => `<div class="blend-item ${selectedCustomFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
+            
+            // Paan Ras 獨立高亮邏輯
+            const paanBox = document.getElementById('paan-trigger');
+            selectedCustomFlavors.has('Paan Ras') ? paanBox.style.background = '#90d4e0' : paanBox.style.background = '#fffdf2';
+
             document.getElementById('current-selection-display').innerText = selectedCustomFlavors.size ? Array.from(selectedCustomFlavors).join(' + ') : '無';
         }
 
@@ -158,17 +169,18 @@
         function switchTab(t, e) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
-            ['menu-grid', 'inventory-list', 'custom-blend'].forEach(id => document.getElementById(id).style.display = 'none');
+            ['menu-grid', 'inventory-list', 'custom-blend'].forEach(id => document.getElementById(id).classList.remove('active-section'));
             const targetId = t === 'menu' ? 'menu-grid' : t === 'inventory' ? 'inventory-list' : 'custom-blend';
-            document.getElementById(targetId).style.display = t === 'menu' ? 'grid' : 'block';
+            document.getElementById(targetId).classList.add('active-section');
         }
 
+        // 初始化煙譜卡片
         const grid = document.getElementById('menu-grid');
         menu.forEach((r, i) => {
             grid.innerHTML += `
                 <div class="card" onclick="openModal(${i})">
-                    <div class="card-art"><div class="watercolor" style="background:${r.color}"></div><div class="illustration">${r.icon}</div><div class="maru-seal">圓</div></div>
-                    <div class="card-content"><span class="en-name">${r.en}</span><h3 class="jp-name">${r.zh}</h3></div>
+                    <div class="card-art"><div class="watercolor" style="background:${r.color}"></div><div class="illustration">${r.icon}</div></div>
+                    <div class="card-content"><h3>${r.zh}</h3></div>
                 </div>`;
         });
 
@@ -176,19 +188,19 @@
         function openModal(i) {
             curPick = menu[i].zh; curRecipe = menu[i].recipe;
             document.getElementById('m-title').innerText = curPick;
-            document.getElementById('m-recipe').innerHTML = "<strong>圓圓調配比例：</strong><br>" + curRecipe;
+            document.getElementById('m-recipe').innerHTML = "<strong>職人比例：</strong><br>" + curRecipe;
             document.getElementById('modal').style.display = 'flex';
         }
         function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
+        // 保留原始 Line 訂單功能
         function confirmOrder() {
-            const msg = `【圓圓工作室 - 職人煙譜】\n我想點：${curPick}\n配方：${curRecipe}`;
+            const msg = `【圓－休憩所】我想點：${curPick}\n配方：${curRecipe}`;
             window.location.href = `https://line.me/R/msg/text/?${encodeURIComponent(msg)}`;
         }
-
         function confirmCustomOrder() {
             if (!selectedCustomFlavors.size) return alert('請先選擇口味');
-            const msg = `【圓圓工作室 - 自由調配】\n我想要：${Array.from(selectedCustomFlavors).join(' + ')}`;
+            const msg = `【圓－休憩所 - 自由調配】\n口味：${Array.from(selectedCustomFlavors).join(' + ')}`;
             window.location.href = `https://line.me/R/msg/text/?${encodeURIComponent(msg)}`;
         }
 
