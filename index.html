@@ -1,205 +1,113 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>圓圓工作室 - Maru's Studio</title>
-    
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="圓圓工作室">
-    <link rel="apple-touch-icon" href="https://img.icons8.com/clouds/512/cloud.png"> 
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>現代和風 - MUJI Style</title>
     <style>
+        /* 載入現代黑體 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;500;700&display=swap');
+
         :root {
-            --washi: #fefcf9; --chiikawa: #e0f2f7; --hachiware: #caf0f8;
-            --usagi: #fef9c3; --ink: #5a5552; --accent: #90d4e0;
-            --cloud-bg: #f0f8ff;
+            --primary-red: #ae2012; /* 保留原本的色彩 */
+            --bg-color: #fcfcfc;    /* 無印良品常見的極淺灰/白 */
+            --text-color: #333;
+            --cloud-color: rgba(174, 32, 18, 0.08); /* 雲朵改用品牌色的淡色調，增加統一感 */
         }
-        body { 
-            background-color: var(--cloud-bg); 
-            background-image: radial-gradient(#e6f2f9 1px, transparent 1px); 
-            background-size: 24px 24px; 
-            color: var(--ink); 
-            font-family: "Noto Serif TC", serif; 
-            margin: 0; padding: 10px; 
-            display: flex; flex-direction: column; align-items: center;
-            -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
-            position: relative;
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            font-family: 'Noto Sans JP', 'Microsoft JhengHei', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
-        
-        /* 雲朵動畫 */
+
+        /* --- 明顯的雲朵動畫 --- */
+        .clouds-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
         .cloud {
-            position: absolute; background: rgba(255, 255, 255, 0.8); border-radius: 50%;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); opacity: 0.6;
-            animation: float 20s infinite ease-in-out; z-index: -1;
+            position: absolute;
+            fill: var(--cloud-color);
+            animation: float 20s infinite linear;
         }
-        .cloud:nth-child(1) { width: 120px; height: 70px; top: 10%; left: -10%; }
-        .cloud:nth-child(2) { width: 90px; height: 50px; top: 30%; right: -15%; animation-delay: 5s; }
-        .cloud:nth-child(3) { width: 150px; height: 80px; bottom: 15%; left: -5%; animation-delay: 10s; }
-        
+
         @keyframes float {
-            0%, 100% { transform: translateX(0) translateY(0); opacity: 0.6; }
-            50% { transform: translateX(50px) translateY(20px); opacity: 0.8; }
+            from { transform: translateX(-100px); }
+            to { transform: translateX(100vw); }
         }
 
-        header { text-align: center; margin: 35px 0; }
-        h1 { font-weight: 500; font-size: 1.8rem; margin: 0; color: #444; }
-        .eng-title { font-size: 0.7rem; letter-spacing: 0.3em; color: #bbb; text-transform: uppercase; margin-top: 8px; font-weight: bold; }
-        .slogan { font-size: 0.85rem; color: #999; margin-top: 20px; padding: 0 20px; line-height: 1.6; }
+        /* 不同的雲朵大小與速度 */
+        .c1 { top: 15%; width: 300px; animation-duration: 25s; opacity: 0.8; }
+        .c2 { top: 50%; width: 450px; animation-duration: 40s; animation-delay: -10s; }
+        .c3 { top: 75%; width: 250px; animation-duration: 30s; animation-delay: -5s; }
 
-        .nav-tabs { display: flex; gap: 12px; margin-bottom: 30px; }
-        .tab-btn { background: #fff; border: 1.5px solid #eee; padding: 8px 20px; border-radius: 25px; cursor: pointer; color: #999; font-family: inherit; font-size: 0.95rem; }
-        .tab-btn.active { background: var(--chiikawa); color: var(--ink); border-color: var(--accent); font-weight: bold; }
+        /* --- MUJI 風內容容器 --- */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 80px 100px; /* 增加留白，解決離邊框太近的問題 */
+            border: 1px solid rgba(0,0,0,0.1); /* 極細線條邊框 */
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03); /* 輕微陰影增加質感 */
+        }
 
-        #inventory-list, #menu-grid, #custom-blend { width: 100%; max-width: 600px; display: none; padding-bottom: 40px; }
-        .active-section { display: block !important; }
+        .smoke-name {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin: 0;
+            letter-spacing: 0.5rem; /* 增加字距，顯得高級且不擁擠 */
+            line-height: 1.2;
+            text-indent: 0.5rem; /* 修正最後一個字的字距偏移 */
+        }
 
-        /* 卡片與內容 */
-        .card { background: #fff; border-radius: 15px; border: 1px solid #f0f0f0; cursor: pointer; transition: 0.4s; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px; }
-        .card-art { width: 100%; height: 140px; position: relative; display: flex; align-items: center; justify-content: center; }
-        .watercolor { position: absolute; width: 100%; height: 100%; filter: blur(25px); opacity: 0.4; }
-        .illustration { position: relative; font-size: 3rem; z-index: 2; }
-        .maru-seal { position: absolute; bottom: 10px; right: 10px; width: 30px; height: 30px; border: 1px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 0.7rem; font-weight: bold; background: rgba(255,255,255,0.8); z-index: 3; }
+        .description {
+            margin-top: 30px;
+            font-size: 1rem;
+            font-weight: 300;
+            color: #666;
+            letter-spacing: 0.8rem;
+            text-transform: uppercase;
+        }
 
-        /* 圖鑑與自由調配 */
-        .inv-section, .blend-section { background: white; padding: 20px; border-radius: 20px; border: 1px solid #f0f0f0; margin-bottom: 15px; }
-        .inv-grid, .blend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
-        .inv-item, .blend-item { background: var(--washi); padding: 8px; text-align: center; border-radius: 10px; font-size: 0.8rem; color: #777; border: 1px solid #eee; }
-        .blend-item { cursor: pointer; }
-        .blend-item.selected { background: var(--accent); color: white; border-color: var(--ink); }
-
-        /* 彈窗 */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-content { background: #fff; padding: 35px; max-width: 400px; width: 85%; border-radius: 25px; border: 2.5px solid var(--accent); }
-        .order-btn { background: var(--chiikawa); color: #d63384; border: none; padding: 18px; width: 100%; border-radius: 50px; font-weight: bold; cursor: pointer; font-family: inherit; }
+        /* 裝飾性小紅點 - 增加日系設計感 */
+        .dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--primary-red);
+            border-radius: 50%;
+            margin: 20px auto;
+        }
     </style>
 </head>
 <body>
 
-    <div class="cloud"></div><div class="cloud"></div><div class="cloud"></div>
-
-    <header>
-        <h1>圓圓工作室</h1>
-        <div class="eng-title">Maru's Studio</div>
-        <p class="slogan">你的煙譜，由你定義。</p>
-    </header>
-
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('menu', event)">職人煙譜</button>
-        <button class="tab-btn" onclick="switchTab('custom', event)">自由調配</button>
-        <button class="tab-btn" onclick="switchTab('inventory', event)">菸草圖鑑</button>
+    <div class="clouds-layer">
+        <svg class="cloud c1" viewBox="0 0 100 40"><path d="M20,35 a10,10 0 0,1 0,-20 a15,15 0 0,1 30,0 a12,12 0 0,1 25,5 a10,10 0 0,1 0,15 Z"/></svg>
+        <svg class="cloud c2" viewBox="0 0 100 40"><path d="M10,30 a12,12 0 0,1 0,-24 a18,18 0 0,1 35,0 a15,15 0 0,1 30,10 a12,12 0 0,1 0,14 Z"/></svg>
+        <svg class="cloud c3" viewBox="0 0 100 40"><path d="M20,35 a10,10 0 0,1 0,-20 a15,15 0 0,1 30,0 a12,12 0 0,1 25,5 a10,10 0 0,1 0,15 Z"/></svg>
     </div>
 
-    <div id="menu-grid" class="active-section"></div>
-
-    <div id="custom-blend">
-        <div class="blend-section">
-            <div style="color:#f0a1bf; font-weight:bold; margin-bottom:10px;">✿ 黑草系列 (Dark Leaf)</div>
-            <div class="blend-grid" id="blend-dark-flavors"></div>
-        </div>
-        <div class="blend-section">
-            <div style="color:#90e0ef; font-weight:bold; margin-bottom:10px;">✿ 果凍 / 紅草系列 (Jelly / Red)</div>
-            <div class="blend-grid" id="blend-jelly-flavors"></div>
-        </div>
-        <div style="background: #fff; padding: 15px; border-radius: 15px; border: 1px dashed var(--accent); margin-top: 10px;">
-            目前選擇：<span id="current-selection-display" style="font-weight: bold;">無</span>
-        </div>
-        <button class="order-btn" style="margin-top:20px; color:#2a6a96;" onclick="confirmCustomOrder()">確認我的調配 (發送訂單)</button>
+    <div class="content-wrapper">
+        <div class="dot"></div>
+        <h1 class="smoke-name">席の息弥</h1>
+        <p class="description">PREMIUM INCENSE</p>
     </div>
 
-    <div id="inventory-list">
-        <div class="inv-section">
-            <div style="color:#f0a1bf; font-weight:bold; margin-bottom:10px;">✿ 黑草 Dark Leaf</div>
-            <div class="inv-grid" id="inv-dark"></div>
-        </div>
-        <div class="inv-section">
-            <div style="color:#90e0ef; font-weight:bold; margin-bottom:10px;">✿ 果凍 / 紅草 Jelly / Red Leaf</div>
-            <div class="inv-grid" id="inv-jelly"></div>
-        </div>
-    </div>
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <h2 id="m-title" style="text-align:center;"></h2>
-            <div id="m-recipe" style="background:#fdfaf5; padding:15px; border-radius:15px; margin:20px 0;"></div>
-            <button class="order-btn" onclick="confirmOrder()">確認注文 (發送訂單)</button>
-            <p style="text-align:center; margin-top:20px; color:#ccc;" onclick="closeModal()">✕ 返回</p>
-        </div>
-    </div>
-
-    <script>
-        const darks = ["茉莉花", "紅茶", "針葉", "琴酒小黃瓜", "綜合水果", "檸檬萊姆", "檸檬糖", "費約果檸檬水"];
-        const jellies = ["希臘優格", "甜薯", "咖啡", "桂花", "琴酒", "百香果石榴", "Paan Ras"];
-
-        const menu = [
-            { zh: "翠玉初戀", en: "Jade First Love", icon: "🍋", color: "#d8f3dc", stats: { 濃: 2, 甜: 4, 酸: 5, 爽: 5 }, recipe: "費約果檸檬水 40% + 檸檬萊姆 30% + 百香果石榴 30%" },
-            { zh: "小圓雲煙", en: "Maru's Fluffy", icon: "☁️", color: "#ffdee9", stats: { 濃: 3, 甜: 5, 酸: 1, 爽: 3 }, recipe: "希臘優格 40% + 甜薯 30% + 綜合水果 30%" },
-            { zh: "烏薩奇之光", en: "Usagi Light", icon: "🌼", color: "#fef9c3", stats: { 濃: 2, 甜: 3, 酸: 1, 爽: 4 }, recipe: "桂花 50% + 茉莉花 30% + 紅茶 20%" },
-            { zh: "莫斯科紳士", en: "Moscow Gent", icon: "🍸", color: "#bde0fe", stats: { 濃: 4, 甜: 2, 酸: 2, 爽: 4 }, recipe: "琴酒小黃瓜 50% + 琴酒 30% + 檸檬萊姆 20%" },
-            { zh: "黑森林拿鐵", en: "Dark Forest", icon: "☕", color: "#d5bdaf", stats: { 濃: 3, 甜: 5, 酸: 1, 爽: 1 }, recipe: "咖啡 40% + 甜薯 40% + 希臘優格 20%" },
-            { zh: "針葉之森", en: "Deep Fir Forest", icon: "🌲", color: "#ccd5ae", stats: { 濃: 5, 甜: 1, 酸: 2, 爽: 4 }, recipe: "針葉 50% + 琴酒小黃瓜 30% + 紅茶 20%" }
-        ];
-
-        function renderInventory() {
-            document.getElementById('inv-dark').innerHTML = darks.map(d => `<div class="inv-item">${d}</div>`).join('');
-            document.getElementById('inv-jelly').innerHTML = jellies.map(j => `<div class="inv-item">${j}</div>`).join('');
-        }
-
-        const selectedCustomFlavors = new Set();
-        function renderCustomBlend() {
-            const dContainer = document.getElementById('blend-dark-flavors');
-            const jContainer = document.getElementById('blend-jelly-flavors');
-            dContainer.innerHTML = darks.map(f => `<div class="blend-item ${selectedCustomFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
-            jContainer.innerHTML = jellies.map(f => `<div class="blend-item ${selectedCustomFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
-            document.getElementById('current-selection-display').innerText = selectedCustomFlavors.size ? Array.from(selectedCustomFlavors).join(' + ') : '無';
-        }
-
-        function toggleF(f) {
-            selectedCustomFlavors.has(f) ? selectedCustomFlavors.delete(f) : selectedCustomFlavors.add(f);
-            renderCustomBlend();
-        }
-
-        function switchTab(t, e) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            ['menu-grid', 'inventory-list', 'custom-blend'].forEach(id => document.getElementById(id).style.display = 'none');
-            const targetId = t === 'menu' ? 'menu-grid' : t === 'inventory' ? 'inventory-list' : 'custom-blend';
-            document.getElementById(targetId).style.display = 'block';
-            if (t === 'menu') document.getElementById(targetId).style.display = 'grid';
-        }
-
-        const grid = document.getElementById('menu-grid');
-        menu.forEach((r, i) => {
-            grid.innerHTML += `
-                <div class="card" onclick="openModal(${i})">
-                    <div class="card-art"><div class="watercolor" style="background:${r.color}"></div><div class="illustration">${r.icon}</div><div class="maru-seal">圓</div></div>
-                    <div class="card-content"><span class="en-name">${r.en}</span><h3 class="jp-name">${r.zh}</h3></div>
-                </div>`;
-        });
-
-        let curPick = "", curRecipe = "";
-        function openModal(i) {
-            curPick = menu[i].zh; curRecipe = menu[i].recipe;
-            document.getElementById('m-title').innerText = curPick;
-            document.getElementById('m-recipe').innerHTML = "<strong>配方比例：</strong><br>" + curRecipe;
-            document.getElementById('modal').style.display = 'flex';
-        }
-        function closeModal() { document.getElementById('modal').style.display = 'none'; }
-
-        function confirmOrder() {
-            const msg = `【圓圓工作室 - 職人煙譜】\n我想點：${curPick}\n配方：${curRecipe}`;
-            window.location.href = `https://line.me/R/msg/text/?${encodeURIComponent(msg)}`;
-        }
-
-        function confirmCustomOrder() {
-            if (!selectedCustomFlavors.size) return alert('請先選擇口味');
-            const msg = `【圓圓工作室 - 自由調配】\n我想要：${Array.from(selectedCustomFlavors).join(' + ')}`;
-            window.location.href = `https://line.me/R/msg/text/?${encodeURIComponent(msg)}`;
-        }
-
-        document.addEventListener('DOMContentLoaded', () => { renderInventory(); renderCustomBlend(); });
-    </script>
 </body>
 </html>
