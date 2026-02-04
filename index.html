@@ -29,7 +29,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 暖黃色呼吸光暈 */
         .ambient-glow {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 100vw; height: 100vh;
@@ -43,7 +42,6 @@
             100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
         }
 
-        /* 一縷縷的厚濃煙 */
         .smoke-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; pointer-events: none;
@@ -95,36 +93,23 @@
             background: rgba(255, 255, 255, 0.03); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.05); 
             padding: 28px 25px; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden;
         }
-        .card:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.06); }
-
-        /* 風味圖標樣式調整 */
-        .card-illustration { position: absolute; right: 20px; top: 20px; font-size: 3rem; opacity: 0.8; filter: drop-shadow(0 0 10px rgba(212, 163, 115, 0.3)); }
-
+        .card-illustration { position: absolute; right: 20px; top: 20px; font-size: 3rem; opacity: 0.8; }
         .card-eng { font-size: 0.65rem; color: #666; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
         .card-title { font-size: 1.45rem; font-weight: 600; color: #fff; margin-bottom: 18px; padding-right: 60px; }
         
         .flavor-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 18px; }
         .stat-row { display: flex; align-items: center; font-size: 0.85rem; color: #999; }
-        .dots { display: flex; gap: 5px; margin-left: 10px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: #2a2a2a; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #2a2a2a; margin-left: 5px; }
         .dot.active { background: var(--gold); box-shadow: 0 0 8px rgba(212, 163, 115, 0.6); }
 
         .blend-section { background: rgba(0,0,0,0.25); padding: 25px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
         .blend-title { font-weight: 600; margin-bottom: 18px; font-size: 1rem; color: var(--gold); }
         .blend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; }
-        .blend-item { 
-            background: rgba(255,255,255,0.04); padding: 12px 5px; text-align: center; 
-            border-radius: 12px; font-size: 0.85rem; color: #999; border: 1px solid rgba(255,255,255,0.08); transition: 0.2s;
-        }
+        .blend-item { background: rgba(255,255,255,0.04); padding: 12px 5px; text-align: center; border-radius: 12px; font-size: 0.85rem; color: #999; border: 1px solid rgba(255,255,255,0.08); transition: 0.2s; }
         .blend-item.selected { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; }
 
-        .order-btn { 
-            background: var(--gold); color: #121212; border: none; padding: 20px; width: 100%; border-radius: 50px; 
-            font-weight: 600; cursor: pointer; font-size: 1.15rem; margin-top: 25px; font-family: inherit;
-        }
-        
+        .order-btn { background: var(--gold); color: #121212; border: none; padding: 20px; width: 100%; border-radius: 50px; font-weight: 600; cursor: pointer; font-size: 1.15rem; margin-top: 25px; font-family: inherit; }
         .selection-bar { background: rgba(0,0,0,0.4); padding: 18px; border-radius: 18px; border: 1px dashed var(--gold); margin-top: 15px; text-align: center; font-size: 0.9rem; }
-
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(12px); }
         .modal-content { background: #1a1a1a; padding: 45px 30px; width: 85%; max-width: 400px; border-radius: 40px; text-align: center; border: 1px solid #333; }
         .m-intro { font-size: 0.95rem; color: #999; margin: 25px 0; line-height: 1.7; font-style: italic; }
@@ -138,7 +123,6 @@
 <body>
 
     <div class="ambient-glow"></div>
-
     <div class="smoke-container">
         <div class="smoke-trace s1"></div>
         <div class="smoke-trace s2"></div>
@@ -159,7 +143,6 @@
         <div id="page-menu" class="page-content active-page">
             <div class="menu-list" id="menu-container"></div>
         </div>
-
         <div id="page-custom" class="page-content">
             <div class="blend-section">
                 <div class="blend-title">✿ 黑草系列 (Dark Leaf)</div>
@@ -197,19 +180,21 @@
         const jelliesOnly = ["希臘優格", "甜薯", "咖啡", "桂花", "琴酒", "百香果石榴"];
         const redLeaf = ["Paan Ras"];
 
-        // 圖示已調整為對應風味的 Emoji
         const menuData = [
             { zh: "茉莉紅韻", en: "Jasmine Black Tea", img: "🍵", intro: "以紅茶為基底搭配茉莉與桂花，展現東方茶韻的優雅清香。", recipe: ["紅茶 50%", "茉莉花 30%", "桂花 20%"], stats: {濃:3, 甜:2, 酸:1, 爽:4} },
             { zh: "琴酒黃瓜酷樂", en: "Gin Cucumber Cooler", img: "🥒", intro: "琴酒小黃瓜與萊姆的極致清爽，為炎熱夜晚帶來透亮感。", recipe: ["琴酒小黃瓜 60%", "琴酒 30%", "檸檬萊姆 10%"], stats: {濃:3, 甜:1, 酸:3, 爽:5} },
             { zh: "希臘果昔", en: "Greek Fruit Smoothie", img: "🥣", intro: "濃郁優格包裹熱帶果酸，絲滑且充滿活力的多層次體驗。", recipe: ["希臘優格 50%", "綜合水果 30%", "百香果石榴 20%"], stats: {濃:4, 甜:4, 酸:3, 爽:2} },
             { zh: "費約果之森", en: "Feijoa Forest", img: "🌲", intro: "獨特費約果香氣融合針葉微涼，彷彿置身清晨的森林步道。", recipe: ["費約果檸檬水 60%", "針葉 20%", "檸檬糖 20%"], stats: {濃:4, 甜:3, 酸:3, 爽:4} },
-            { zh: "深焙甜薯拿鐵", en: "Coffee Sweet Potato", img: "☕", intro: "咖啡焦香與甜薯溫潤甜韻，營造溫暖舒壓的午後時光。", recipe: ["咖啡 60%", "甜薯 40%"], stats: {濃:5, 甜:4, 酸:1, 爽:1} },
+            { zh: "深焙甜薯拿鐵", en: "Coffee Sweet Potato", img: "🍠", intro: "咖啡焦香與甜薯溫潤甜韻，營造溫暖舒壓的午後時光。", recipe: ["咖啡 60%", "甜薯 40%"], stats: {濃:5, 甜:4, 酸:1, 爽:1} },
             { zh: "香料幻境", en: "Mystic Paan", img: "🔮", intro: "紅草 Paan Ras 的強烈辛香，在綜合水果的酸甜下達成完美平衡。", recipe: ["Paan Ras 40%", "綜合水果 30%", "茉莉花 30%"], stats: {濃:5, 甜:2, 酸:2, 爽:4} },
-            { zh: "百香酸甜派對", en: "Passion Lemonade", img: "🍋", intro: "極致的酸爽衝擊，百香果與檸檬萊姆點亮沉悶的味蕾。", recipe: ["百香果石榴 60%", "檸檬萊姆 20%", "檸檬糖 20%"], stats: {濃:3, 甜:2, 酸:5, 爽:4} }
+            { zh: "百香酸甜派對", en: "Passion Lemonade", img: "🍋", intro: "極致的酸爽衝擊，百香果與檸檬萊姆點亮沉悶的味蕾。", recipe: ["百香果石榴 60%", "檸檬萊姆 20%", "檸檬糖 20%"], stats: {濃:3, 甜:2, 酸:5, 爽:4} },
+            { zh: "針葉林之息", en: "Needle Breath", img: "❄️", intro: "將呼吸帶入極寒之地，針葉與檸檬糖帶來純粹的冷冽感。", recipe: ["針葉 60%", "檸檬糖 30%", "檸檬萊姆 10%"], stats: {濃:2, 甜:2, 酸:3, 爽:5} },
+            { zh: "優格桂花釀", en: "Osmanthus Yogurt", img: "🍶", intro: "中式優雅的桂花甜香嵌入綿密優格，是一道可以抽的甜品。", recipe: ["希臘優格 50%", "桂花 30%", "甜薯 20%"], stats: {濃:4, 甜:5, 酸:2, 爽:2} },
+            { zh: "微醺咖啡馬丁尼", en: "Espresso Gin-tini", img: "🍸", intro: "琴酒的草本香與深焙咖啡碰撞，層次深邃且具有大人味的冷傲。", recipe: ["咖啡 50%", "琴酒 40%", "檸檬糖 10%"], stats: {濃:5, 甜:1, 酸:2, 爽:3} }
         ];
 
         function createDots(score) {
-            let h = ''; for(let i=1; i<=5; i++) h += `<div class="dot ${i<=score?'active':''}"></div>`; return h;
+            let h = '<div class="dots" style="display:flex">'; for(let i=1; i<=5; i++) h += `<div class="dot ${i<=score?'active':''}"></div>`; return h + '</div>';
         }
 
         function switchPage(p) {
