@@ -3,111 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>現代和風 - MUJI Style</title>
+    <title>圓－休憩所 | Shisha Menu</title>
     <style>
-        /* 載入現代黑體 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;500;700&display=swap');
 
         :root {
-            --primary-red: #ae2012; /* 保留原本的色彩 */
-            --bg-color: #fcfcfc;    /* 無印良品常見的極淺灰/白 */
-            --text-color: #333;
-            --cloud-color: rgba(174, 32, 18, 0.08); /* 雲朵改用品牌色的淡色調，增加統一感 */
+            --chiikawa-pink: #ffe5ec;
+            --chiikawa-blue: #d8e2dc;
+            --chiikawa-yellow: #fff2af;
+            --primary-red: #ae2012;
+            --text-main: #4a4a4a;
+            --text-sub: #8e8e8e;
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-color);
+            margin: 0; padding: 0;
+            width: 100%; min-height: 100vh;
+            background: linear-gradient(135deg, var(--chiikawa-pink) 0%, var(--chiikawa-blue) 100%);
             font-family: 'Noto Sans JP', 'Microsoft JhengHei', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+            overflow-x: hidden;
         }
 
-        /* --- 明顯的雲朵動畫 --- */
-        .clouds-layer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
+        /* --- 吉伊卡哇風 漂浮雲朵 --- */
+        .cloud-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none;
         }
-
         .cloud {
             position: absolute;
-            fill: var(--cloud-color);
-            animation: float 20s infinite linear;
+            fill: var(--chiikawa-yellow);
+            stroke: rgba(255,255,255,0.8);
+            stroke-width: 2px;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.05));
+            animation: floatClouds 25s infinite linear;
+            opacity: 0.7;
+        }
+        .c1 { top: 15%; width: 200px; left: -10%; }
+        .c2 { top: 70%; width: 280px; left: -20%; animation-duration: 40s; animation-delay: -5s; }
+        @keyframes floatClouds {
+            from { transform: translateX(-20%); }
+            to { transform: translateX(120vw); }
         }
 
-        @keyframes float {
-            from { transform: translateX(-100px); }
-            to { transform: translateX(100vw); }
-        }
-
-        /* 不同的雲朵大小與速度 */
-        .c1 { top: 15%; width: 300px; animation-duration: 25s; opacity: 0.8; }
-        .c2 { top: 50%; width: 450px; animation-duration: 40s; animation-delay: -10s; }
-        .c3 { top: 75%; width: 250px; animation-duration: 30s; animation-delay: -5s; }
-
-        /* --- MUJI 風內容容器 --- */
-        .content-wrapper {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 80px 100px; /* 增加留白，解決離邊框太近的問題 */
-            border: 1px solid rgba(0,0,0,0.1); /* 極細線條邊框 */
-            background-color: rgba(255, 255, 255, 0.8);
+        /* --- 主容器 (MUJI 留白感) --- */
+        .menu-container {
+            position: relative; z-index: 10;
+            width: 85%; max-width: 700px;
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03); /* 輕微陰影增加質感 */
+            padding: 80px;
+            border-radius: 40px; /* 圓角呼應「圓」的名字 */
+            box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+            text-align: center;
         }
 
-        .smoke-name {
-            font-size: 3.5rem;
-            font-weight: 700;
+        .brand-name {
+            font-size: 2.5rem;
             color: var(--primary-red);
-            margin: 0;
-            letter-spacing: 0.5rem; /* 增加字距，顯得高級且不擁擠 */
-            line-height: 1.2;
-            text-indent: 0.5rem; /* 修正最後一個字的字距偏移 */
+            letter-spacing: 1rem;
+            margin-bottom: 10px;
+            font-weight: 700;
         }
 
-        .description {
-            margin-top: 30px;
-            font-size: 1rem;
-            font-weight: 300;
-            color: #666;
-            letter-spacing: 0.8rem;
-            text-transform: uppercase;
+        /* --- 上方分區切換按鈕 --- */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        .tab-btn {
+            background: none; border: none;
+            font-size: 1.1rem; color: var(--text-sub);
+            cursor: pointer; letter-spacing: 0.2rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .tab-btn.active {
+            color: var(--primary-red);
+            font-weight: 700;
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute; bottom: -16px; left: 0;
+            width: 100%; height: 3px; background: var(--primary-red);
         }
 
-        /* 裝飾性小紅點 - 增加日系設計感 */
-        .dot {
-            width: 6px;
-            height: 6px;
-            background-color: var(--primary-red);
-            border-radius: 50%;
-            margin: 20px auto;
+        /* --- 菜單列表樣式 --- */
+        .menu-content { display: none; animation: fadeIn 0.5s ease; }
+        .menu-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+
+        .menu-list { list-style: none; padding: 0; margin: 0; }
+        .menu-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 25px 0; border-bottom: 1px solid #f2f2f2;
+        }
+        .item-info { text-align: left; }
+        .item-name { font-size: 1.2rem; color: var(--text-main); font-weight: 500; }
+        .item-price { font-size: 1.2rem; color: var(--primary-red); font-weight: 700; }
+
+        /* --- Paan Ras 獨立美學 --- */
+        .paan-special {
+            background: var(--chiikawa-pink);
+            padding: 40px; border-radius: 20px;
+            border: 1px dashed var(--primary-red);
+        }
+        .paan-title { font-size: 1.8rem; margin-bottom: 15px; color: var(--primary-red); }
     </style>
 </head>
 <body>
 
-    <div class="clouds-layer">
+    <div class="cloud-bg">
         <svg class="cloud c1" viewBox="0 0 100 40"><path d="M20,35 a10,10 0 0,1 0,-20 a15,15 0 0,1 30,0 a12,12 0 0,1 25,5 a10,10 0 0,1 0,15 Z"/></svg>
         <svg class="cloud c2" viewBox="0 0 100 40"><path d="M10,30 a12,12 0 0,1 0,-24 a18,18 0 0,1 35,0 a15,15 0 0,1 30,10 a12,12 0 0,1 0,14 Z"/></svg>
-        <svg class="cloud c3" viewBox="0 0 100 40"><path d="M20,35 a10,10 0 0,1 0,-20 a15,15 0 0,1 30,0 a12,12 0 0,1 25,5 a10,10 0 0,1 0,15 Z"/></svg>
     </div>
 
-    <div class="content-wrapper">
-        <div class="dot"></div>
-        <h1 class="smoke-name">席の息弥</h1>
-        <p class="description">PREMIUM INCENSE</p>
+    <div class="menu-container">
+        <div class="brand-name">圓－休憩所</div>
+        
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('classic')">經典系列</button>
+            <button class="tab-btn" onclick="showTab('paan')">獨家 Paan Ras</button>
+        </div>
+
+        <div id="classic" class="menu-content active">
+            <ul class="menu-list">
+                <li class="menu-item">
+                    <div class="item-info"><span class="item-name">白桃烏龍</span></div>
+                    <span class="item-price">$1,200</span>
+                </li>
+                <li class="menu-item">
+                    <div class="item-info"><span class="item-name">薄荷冰茶</span></div>
+                    <span class="item-price">$1,100</span>
+                </li>
+                <li class="menu-item">
+                    <div class="item-info"><span class="item-name">京都抹茶</span></div>
+                    <span class="item-price">$1,300</span>
+                </li>
+            </ul>
+        </div>
+
+        <div id="paan" class="menu-content">
+            <div class="paan-special">
+                <h2 class="paan-title">Paan Ras</h2>
+                <p style="color: #666; line-height: 1.8; margin-bottom: 20px;">
+                    來自印度的神秘香料與清涼感的終極碰撞。<br>
+                    獨特的藥草氣息與持久的甜味，是資深煙客的靈魂選擇。
+                </p>
+                <span class="item-price" style="font-size: 1.8rem;">$1,600</span>
+            </div>
+        </div>
+
+        <p style="margin-top: 50px; color: #ccc; font-size: 0.8rem; letter-spacing: 0.2rem;">心、落ち着く。圓の意味。</p>
     </div>
 
+    <script>
+        function showTab(tabId) {
+            // 隱藏所有內容
+            document.querySelectorAll('.menu-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            // 取消所有按鈕選中
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // 顯示點選內容與按鈕
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
 </body>
 </html>
