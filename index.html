@@ -12,9 +12,7 @@
             --bg-dark: #0f0f0f; 
             --ink-light: #e0e0e0; 
             --gold: #d4a373; 
-            --accent: #8e9aaf; 
-            /* 調整為更濃厚的雲朵白 */
-            --smoke-white: rgba(255, 255, 255, 0.9); 
+            --smoke-white: rgba(255, 255, 255, 0.85); 
         }
 
         body { 
@@ -31,48 +29,46 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- 新增：暖黃色閃動光暈 --- */
+        /* 暖黃色呼吸光暈 */
         .ambient-glow {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 100vw; height: 100vh;
-            background: radial-gradient(circle, rgba(212, 163, 115, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(212, 163, 115, 0.12) 0%, transparent 70%);
             z-index: -2;
             animation: breatheGlow 8s infinite alternate ease-in-out;
             pointer-events: none;
         }
         @keyframes breatheGlow {
-            0% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.2); }
+            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
         }
 
-        /* --- 修改：一縷縷的真實濃雲煙霧 --- */
+        /* 一縷縷的厚濃煙 */
         .smoke-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; pointer-events: none;
         }
         .smoke-trace {
             position: absolute;
-            /* 窄長縷狀背景 */
-            background: linear-gradient(to top, rgba(255,255,255,0) 0%, var(--smoke-white) 20%, var(--smoke-white) 80%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(to top, rgba(255,255,255,0) 0%, var(--smoke-white) 25%, var(--smoke-white) 75%, rgba(255,255,255,0) 100%);
             filter: blur(35px);
-            border-radius: 40% 60% 40% 60%;
+            border-radius: 50px;
             opacity: 0;
-            animation: smokeRise 15s infinite linear;
+            animation: smokeRise 14s infinite linear;
         }
-        /* 縷狀尺寸調整 */
-        .s1 { width: 100px; height: 450px; bottom: -200px; left: 10%; animation-duration: 18s; }
-        .s2 { width: 120px; height: 500px; bottom: -220px; right: 15%; animation-duration: 22s; animation-delay: -5s; }
-        .s3 { width: 80px; height: 400px; bottom: -180px; left: 45%; animation-duration: 20s; animation-delay: -10s; }
+        .s1 { width: 80px; height: 450px; bottom: -200px; left: 15%; animation-duration: 16s; }
+        .s2 { width: 100px; height: 500px; bottom: -220px; right: 10%; animation-duration: 20s; animation-delay: -4s; }
+        .s3 { width: 70px; height: 400px; bottom: -180px; left: 50%; animation-duration: 18s; animation-delay: -9s; }
 
         @keyframes smokeRise {
             0% { transform: translateY(0) scaleX(1) skewX(0deg); opacity: 0; }
-            15% { opacity: 0.8; }
-            50% { transform: translateY(-50vh) scaleX(1.8) skewX(15deg); opacity: 0.6; }
-            100% { transform: translateY(-110vh) scaleX(2.5) skewX(-20deg); opacity: 0; }
+            15% { opacity: 0.7; }
+            50% { transform: translateY(-45vh) scaleX(1.6) skewX(10deg); opacity: 0.5; }
+            100% { transform: translateY(-110vh) scaleX(2.2) skewX(-15deg); opacity: 0; }
         }
 
         header { text-align: center; margin: 60px 0 40px; z-index: 10; }
-        h1 { font-size: 2.4rem; letter-spacing: 0.5em; color: var(--gold); margin: 0; text-indent: 0.5em; text-shadow: 0 0 20px rgba(212, 163, 115, 0.2); }
+        h1 { font-size: 2.4rem; letter-spacing: 0.5em; color: var(--gold); margin: 0; text-indent: 0.5em; text-shadow: 0 0 20px rgba(212, 163, 115, 0.3); }
         .eng-title { font-size: 0.75rem; letter-spacing: 0.4em; color: rgba(255,255,255,0.25); margin-top: 10px; }
 
         .nav-tabs { display: flex; gap: 12px; margin-bottom: 35px; z-index: 10; }
@@ -87,9 +83,8 @@
             background: rgba(30, 30, 30, 0.6); 
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 40px; padding: 45px 25px; 
-            box-shadow: 0 25px 60px rgba(0,0,0,0.5); 
-            margin-bottom: 60px; box-sizing: border-box; z-index: 5;
+            border-radius: 40px; padding: 45px 25px; box-sizing: border-box; z-index: 5;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5); margin-bottom: 60px;
         }
 
         .page-content { display: none; }
@@ -102,8 +97,8 @@
         }
         .card:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.06); }
 
-        .card-illustration { position: absolute; right: 15px; top: 15px; width: 65px; height: 65px; opacity: 0.7; filter: grayscale(0.2); }
-        .card-illustration img { width: 100%; height: auto; object-fit: contain; }
+        /* 風味圖標樣式調整 */
+        .card-illustration { position: absolute; right: 20px; top: 20px; font-size: 3rem; opacity: 0.8; filter: drop-shadow(0 0 10px rgba(212, 163, 115, 0.3)); }
 
         .card-eng { font-size: 0.65rem; color: #666; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
         .card-title { font-size: 1.45rem; font-weight: 600; color: #fff; margin-bottom: 18px; padding-right: 60px; }
@@ -124,10 +119,8 @@
         .blend-item.selected { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; }
 
         .order-btn { 
-            background: var(--gold); color: #121212; border: none; 
-            padding: 20px; width: 100%; border-radius: 50px; 
+            background: var(--gold); color: #121212; border: none; padding: 20px; width: 100%; border-radius: 50px; 
             font-weight: 600; cursor: pointer; font-size: 1.15rem; margin-top: 25px; font-family: inherit;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
         
         .selection-bar { background: rgba(0,0,0,0.4); padding: 18px; border-radius: 18px; border: 1px dashed var(--gold); margin-top: 15px; text-align: center; font-size: 0.9rem; }
@@ -204,15 +197,15 @@
         const jelliesOnly = ["希臘優格", "甜薯", "咖啡", "桂花", "琴酒", "百香果石榴"];
         const redLeaf = ["Paan Ras"];
 
-        // 更新後的 7 種專屬配方
+        // 圖示已調整為對應風味的 Emoji
         const menuData = [
-            { zh: "茉莉紅韻", en: "Jasmine Black Tea", img: "tea.png", intro: "以紅茶為基底搭配茉莉與桂花，展現東方茶韻的優雅清香。", recipe: ["紅茶 50%", "茉莉花 30%", "桂花 20%"], stats: {濃:3, 甜:2, 酸:1, 爽:4} },
-            { zh: "琴酒黃瓜酷樂", en: "Gin Cucumber Cooler", img: "fizz.png", intro: "琴酒小黃瓜與萊姆的極致清爽，為炎熱夜晚帶來透亮感。", recipe: ["琴酒小黃瓜 60%", "琴酒 30%", "檸檬萊姆 10%"], stats: {濃:3, 甜:1, 酸:3, 爽:5} },
-            { zh: "希臘果昔", en: "Greek Fruit Smoothie", img: "jade.png", intro: "濃郁優格包裹熱帶果酸，絲滑且充滿活力的多層次體驗。", recipe: ["希臘優格 50%", "綜合水果 30%", "百香果石榴 20%"], stats: {濃:4, 甜:4, 酸:3, 爽:2} },
-            { zh: "費約果之森", en: "Feijoa Forest", img: "fluffy.png", intro: "獨特費約果香氣融合針葉微涼，彷彿置身清晨的森林步道。", recipe: ["費約果檸檬水 60%", "針葉 20%", "檸檬糖 20%"], stats: {濃:4, 甜:3, 酸:3, 爽:4} },
-            { zh: "深焙甜薯拿鐵", en: "Coffee Sweet Potato", img: "gent.png", intro: "咖啡焦香與甜薯溫潤甜韻，營造溫暖舒壓的午後時光。", recipe: ["咖啡 60%", "甜薯 40%"], stats: {濃:5, 甜:4, 酸:1, 爽:1} },
-            { zh: "香料幻境", en: "Mystic Paan", img: "usagi.png", intro: "紅草 Paan Ras 的強烈辛香，在綜合水果的酸甜下達成完美平衡。", recipe: ["Paan Ras 40%", "綜合水果 30%", "茉莉花 30%"], stats: {濃:5, 甜:2, 酸:2, 爽:4} },
-            { zh: "百香酸甜派對", en: "Passion Lemonade", img: "jade.png", intro: "極致的酸爽衝擊，百香果與檸檬萊姆點亮沉悶的味蕾。", recipe: ["百香果石榴 60%", "檸檬萊姆 20%", "檸檬糖 20%"], stats: {濃:3, 甜:2, 酸:5, 爽:4} }
+            { zh: "茉莉紅韻", en: "Jasmine Black Tea", img: "🍵", intro: "以紅茶為基底搭配茉莉與桂花，展現東方茶韻的優雅清香。", recipe: ["紅茶 50%", "茉莉花 30%", "桂花 20%"], stats: {濃:3, 甜:2, 酸:1, 爽:4} },
+            { zh: "琴酒黃瓜酷樂", en: "Gin Cucumber Cooler", img: "🥒", intro: "琴酒小黃瓜與萊姆的極致清爽，為炎熱夜晚帶來透亮感。", recipe: ["琴酒小黃瓜 60%", "琴酒 30%", "檸檬萊姆 10%"], stats: {濃:3, 甜:1, 酸:3, 爽:5} },
+            { zh: "希臘果昔", en: "Greek Fruit Smoothie", img: "🥣", intro: "濃郁優格包裹熱帶果酸，絲滑且充滿活力的多層次體驗。", recipe: ["希臘優格 50%", "綜合水果 30%", "百香果石榴 20%"], stats: {濃:4, 甜:4, 酸:3, 爽:2} },
+            { zh: "費約果之森", en: "Feijoa Forest", img: "🌲", intro: "獨特費約果香氣融合針葉微涼，彷彿置身清晨的森林步道。", recipe: ["費約果檸檬水 60%", "針葉 20%", "檸檬糖 20%"], stats: {濃:4, 甜:3, 酸:3, 爽:4} },
+            { zh: "深焙甜薯拿鐵", en: "Coffee Sweet Potato", img: "☕", intro: "咖啡焦香與甜薯溫潤甜韻，營造溫暖舒壓的午後時光。", recipe: ["咖啡 60%", "甜薯 40%"], stats: {濃:5, 甜:4, 酸:1, 爽:1} },
+            { zh: "香料幻境", en: "Mystic Paan", img: "🔮", intro: "紅草 Paan Ras 的強烈辛香，在綜合水果的酸甜下達成完美平衡。", recipe: ["Paan Ras 40%", "綜合水果 30%", "茉莉花 30%"], stats: {濃:5, 甜:2, 酸:2, 爽:4} },
+            { zh: "百香酸甜派對", en: "Passion Lemonade", img: "🍋", intro: "極致的酸爽衝擊，百香果與檸檬萊姆點亮沉悶的味蕾。", recipe: ["百香果石榴 60%", "檸檬萊姆 20%", "檸檬糖 20%"], stats: {濃:3, 甜:2, 酸:5, 爽:4} }
         ];
 
         function createDots(score) {
@@ -236,7 +229,7 @@
         menuData.forEach((r, i) => {
             container.innerHTML += `
                 <div class="card" onclick="openModal(${i})">
-                    <div class="card-illustration"><img src="${r.img}" alt=""></div>
+                    <div class="card-illustration">${r.img}</div>
                     <div class="card-eng">${r.en}</div>
                     <div class="card-title">${r.zh}</div>
                     <div class="flavor-stats">
