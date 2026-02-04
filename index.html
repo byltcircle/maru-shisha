@@ -4,84 +4,209 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>圓－休憩所 - Maru's Studio</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --ink: #3d3a38; --gold: #e6b422; 
-            --sunset-top: #35495e; --sunset-mid: #f39c12; --sunset-bottom: #d35400;
+            --bg-dark: #141414; /* 昏暗室內基底 */
+            --ink: #e0e0e0; 
+            --gold: #d4a373; /* 暖黃光色調 */
+            --accent: #90d4e0; 
+            --primary-red: #ae2012;
         }
+
         body { 
-            background: linear-gradient(to bottom, var(--sunset-top), var(--sunset-mid), var(--sunset-bottom));
-            background-attachment: fixed; background-size: cover;
-            font-family: "Noto Serif TC", serif; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+            background-color: var(--bg-dark);
+            /* 模擬室內微弱的角落黃光 */
+            background-image: radial-gradient(circle at 5% 5%, rgba(212, 163, 115, 0.1) 0%, transparent 50%),
+                              radial-gradient(circle at 95% 95%, rgba(212, 163, 115, 0.08) 0%, transparent 50%);
+            background-attachment: fixed;
+            color: var(--ink); 
+            font-family: "Noto Serif TC", serif; 
+            margin: 0; padding: 0; 
+            display: flex; flex-direction: column; align-items: center;
+            overflow-x: hidden; min-height: 100vh;
         }
-        /* 雲朵動畫 */
-        .cloud-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .cloud { position: absolute; background: #fff; border-radius: 50px; opacity: 0.9; filter: blur(2px); animation: move 45s infinite linear; }
-        .cloud::after, .cloud::before { content: ''; position: absolute; background: #fff; border-radius: 50%; }
-        .cloud::after { width: 90px; height: 90px; top: -45px; left: 20px; }
-        .cloud::before { width: 70px; height: 70px; top: -30px; right: 20px; }
-        .c1 { width: 150px; height: 45px; top: 15%; left: -200px; }
-        @keyframes move { from { transform: translateX(-10vw); } to { transform: translateX(110vw); } }
-
-        header { text-align: center; margin: 50px 0; }
-        h1 { color: #fff; letter-spacing: 0.5em; font-size: 2.2rem; margin: 0; }
-        .eng-title { color: rgba(255,255,255,0.7); font-size: 0.75rem; letter-spacing: 0.3em; margin-top: 10px; }
-
-        .main-container { width: 90%; max-width: 500px; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-radius: 40px; padding: 35px 20px; margin-bottom: 50px; }
         
-        /* 列表樣式 */
-        .menu-list { display: flex; flex-direction: column; gap: 20px; }
-        .card { background: #fff; border-radius: 25px; padding: 25px; position: relative; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .card-illustration { position: absolute; right: 20px; top: 20px; width: 60px; height: 60px; }
-        .card-illustration img { width: 100%; height: auto; }
-        .card-eng { font-size: 0.7rem; color: #bbb; text-transform: uppercase; margin-bottom: 5px; }
-        .card-title { font-size: 1.4rem; font-weight: 600; color: var(--ink); margin-bottom: 15px; }
+        /* --- 水煙煙霧效果 --- */
+        .smoke-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+        .smoke {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            filter: blur(30px);
+            opacity: 0;
+            animation: smokeMove 12s infinite linear;
+        }
+        .s1 { width: 250px; height: 120px; bottom: -50px; left: 10%; animation-duration: 15s; }
+        .s2 { width: 350px; height: 150px; bottom: -80px; left: 40%; animation-duration: 20s; animation-delay: -5s; }
+        .s3 { width: 200px; height: 100px; bottom: -30px; right: 5%; animation-duration: 18s; animation-delay: -10s; }
 
-        /* 風味指標點點 */
-        .flavor-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; border-top: 1px dashed #eee; padding-top: 15px; }
-        .stat-row { display: flex; align-items: center; font-size: 0.8rem; color: #777; }
-        .dots { display: flex; gap: 3px; margin-left: 8px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: #eee; }
-        .dot.active { background: var(--gold); }
+        @keyframes smokeMove {
+            0% { transform: translateY(0) scale(1) translateX(0); opacity: 0; }
+            20% { opacity: 0.3; }
+            80% { opacity: 0.1; }
+            100% { transform: translateY(-100vh) scale(2.5) translateX(50px); opacity: 0; }
+        }
+
+        header { text-align: center; margin: 50px 0; z-index: 10; }
+        h1 { font-size: 2.4rem; letter-spacing: 0.5em; color: var(--gold); text-indent: 0.5em; text-shadow: 0 0 15px rgba(212,163,115,0.3); }
+        .eng-title { font-size: 0.75rem; letter-spacing: 0.4em; color: rgba(255,255,255,0.3); margin-top: 10px; }
+
+        .nav-tabs { display: flex; gap: 15px; margin-bottom: 35px; z-index: 10; }
+        .tab-btn { 
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px 25px; 
+            border-radius: 30px; cursor: pointer; color: #888; font-family: inherit; transition: 0.3s;
+        }
+        .tab-btn.active { background: var(--gold); color: #000; font-weight: 600; border-color: var(--gold); }
+
+        .main-container {
+            width: 90%; max-width: 500px; 
+            background: rgba(255,255,255,0.06); 
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 40px; padding: 40px 25px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); 
+            margin-bottom: 60px; box-sizing: border-box;
+        }
+
+        .page-content { display: none; }
+        .active-page { display: block !important; animation: fadeIn 0.5s ease; }
+
+        /* 職人煙譜列表 */
+        .menu-list { display: flex; flex-direction: column; gap: 20px; }
+        .card { 
+            background: rgba(255,255,255,0.03); border-radius: 25px; border: 1px solid rgba(255,255,255,0.05); 
+            padding: 25px; cursor: pointer; transition: 0.3s; position: relative;
+        }
+        .card-illustration { position: absolute; right: 20px; top: 20px; width: 65px; height: 65px; opacity: 0.9; }
+        .card-illustration img { width: 100%; height: auto; }
+        .card-eng { font-size: 0.7rem; color: #666; text-transform: uppercase; margin-bottom: 5px; }
+        .card-title { font-size: 1.4rem; font-weight: 600; color: #fff; margin-bottom: 15px; }
+        
+        .flavor-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
+        .stat-row { display: flex; align-items: center; font-size: 0.85rem; color: #999; }
+        .dots { display: flex; gap: 4px; margin-left: 8px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #333; }
+        .dot.active { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+
+        /* 自由調配分類 */
+        .blend-section { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
+        .blend-title { font-weight: 600; margin-bottom: 15px; font-size: 1rem; color: var(--gold); }
+        .blend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 8px; }
+        .blend-item { 
+            background: rgba(255,255,255,0.05); padding: 10px 5px; text-align: center; 
+            border-radius: 10px; font-size: 0.85rem; color: #aaa; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .blend-item.selected { background: var(--gold); color: #000; border-color: var(--gold); }
+
+        .order-btn { 
+            background: var(--gold); color: #000; border: none; 
+            padding: 18px; width: 100%; border-radius: 50px; 
+            font-weight: 600; cursor: pointer; font-size: 1.1rem; margin-top: 20px;
+        }
+        
+        .selection-bar { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; border: 1px dashed var(--gold); margin-top: 15px; text-align: center; font-size: 0.9rem; }
 
         /* 彈窗 */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-content { background: #fff; padding: 35px; width: 80%; max-width: 400px; border-radius: 35px; text-align: center; }
-        .m-intro { color: #888; font-style: italic; margin: 15px 0 25px; font-size: 0.9rem; }
-        .m-recipe { background: #fdfaf5; padding: 20px; border-radius: 20px; text-align: left; font-size: 0.9rem; }
-        .order-btn { background: var(--sunset-bottom); color: #fff; border: none; padding: 15px; width: 100%; border-radius: 50px; font-weight: 600; margin-top: 20px; cursor: pointer; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+        .modal-content { background: #1a1a1a; padding: 40px 30px; width: 85%; max-width: 400px; border-radius: 40px; text-align: center; border: 1px solid #333; }
+        .m-intro { font-size: 0.95rem; color: #999; margin: 20px 0; line-height: 1.6; font-style: italic; }
+        .m-recipe-container { background: #111; padding: 20px; border-radius: 20px; text-align: left; border: 1px solid #222; }
+        .recipe-line { display: block; font-size: 0.95rem; color: #bbb; margin-bottom: 5px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .footer-note { text-align: center; color: #444; font-size: 0.85rem; margin-top: 30px; padding-bottom: 40px; }
     </style>
 </head>
 <body>
-    <div class="cloud-container"><div class="cloud c1"></div></div>
-    <header><h1>圓－休憩所</h1><div class="eng-title">MARU'S SHISHA STUDIO</div></header>
+
+    <div class="smoke-container">
+        <div class="smoke s1"></div>
+        <div class="smoke s2"></div>
+        <div class="smoke s3"></div>
+    </div>
+
+    <header>
+        <h1>圓－休憩所</h1>
+        <div class="eng-title">Maru's Shisha Studio</div>
+    </header>
+
+    <div class="nav-tabs">
+        <button id="btn-menu" class="tab-btn active" onclick="switchPage('menu')">職人煙譜</button>
+        <button id="btn-custom" class="tab-btn" onclick="switchPage('custom')">自由調配</button>
+    </div>
+
     <div class="main-container">
-        <div class="menu-list" id="menu-container"></div>
+        <div id="page-menu" class="page-content active-page">
+            <div class="menu-list" id="menu-container"></div>
+        </div>
+
+        <div id="page-custom" class="page-content">
+            <div class="blend-section">
+                <div class="blend-title">✿ 黑草系列 (Dark Leaf)</div>
+                <div class="blend-grid" id="blend-dark"></div>
+            </div>
+            <div class="blend-section">
+                <div class="blend-title">✿ 果凍系列 (Jelly)</div>
+                <div class="blend-grid" id="blend-jelly"></div>
+            </div>
+            <div class="blend-section">
+                <div class="blend-title">✿ 紅草系列 (Red Leaf)</div>
+                <div class="blend-grid" id="blend-red"></div>
+            </div>
+            <div class="selection-bar">目前選擇：<br><span id="selection-display" style="font-weight: 600;">無</span></div>
+            <button class="order-btn" onclick="confirmCustomOrder()">確認調配 (發送訂單)</button>
+        </div>
+        <p class="footer-note">心、落ち着く。圓の意味。</p>
     </div>
 
     <div id="modal" class="modal" onclick="if(event.target==this)closeModal()">
         <div class="modal-content">
-            <h2 id="m-title"></h2>
+            <h2 id="m-title" style="color: var(--gold);"></h2>
             <div id="m-intro" class="m-intro"></div>
-            <div class="m-recipe" id="m-recipe"></div>
-            <button class="order-btn" onclick="confirmOrder()">發送 Line 訂單</button>
+            <div class="m-recipe-container">
+                <strong style="color:var(--gold); display:block; margin-bottom:10px;">職人調配比例：</strong>
+                <div id="m-recipe-list"></div>
+            </div>
+            <button class="order-btn" onclick="confirmOrder()">確認注文 (發送訂單)</button>
+            <p style="margin-top:20px; color:#555; cursor:pointer;" onclick="closeModal()">✕ 返回</p>
         </div>
     </div>
 
     <script>
-        // 完整的數據庫，包含所有消失的口味
+        const darks = ["茉莉花", "紅茶", "針葉", "琴酒小黃瓜", "綜合水果", "檸檬萊姆", "檸檬糖", "費約果檸檬水"];
+        const jelliesOnly = ["希臘優格", "甜薯", "咖啡", "桂花", "琴酒", "百香果石榴"];
+        const redLeaf = ["Paan Ras"];
+
         const menuData = [
-            { zh: "秋日茶亭", en: "Autumn Tea", img: "tea.png", intro: "暖陽下的焙茶香氣，伴隨微甜的秋意。", recipe: "焙茶 50% + 鮮奶 30% + 黑糖 20%", stats: {濃:4, 甜:3, 酸:1, 爽:2} },
-            { zh: "午夜電解質", en: "Midnight Fizz", img: "fizz.png", intro: "深夜裡的一抹清爽，補給靈魂的電力。", recipe: "寶礦力 40% + 檸檬 30% + 蘇打 30%", stats: {濃:4, 甜:2, 酸:5, 爽:4} },
-            { zh: "翠玉初戀", en: "Jade First Love", img: "jade.png", intro: "青澀的果香，如同初次見面時的怦然心動。", recipe: "費約果 40% + 檸檬萊姆 30% + 百香果 30%", stats: {濃:3, 甜:2, 酸:4, 爽:5} },
-            { zh: "小圓雲煙", en: "Maru's Fluffy", img: "fluffy.png", intro: "像是在雲朵上打滾，軟綿綿的優格甜味。", recipe: "優格 40% + 甜薯 30% + 綜合水果 30%", stats: {濃:4, 甜:4, 酸:1, 爽:2} },
-            { zh: "烏薩奇之光", en: "Usagi Light", img: "usagi.png", intro: "明亮的桂花茶香，照亮寂靜的夜晚。", recipe: "桂花 50% + 茉莉 30% + 紅茶 20%", stats: {濃:2, 甜:3, 酸:1, 爽:4} },
-            { zh: "莫斯科紳士", en: "Moscow Gent", img: "gent.png", intro: "琴酒與小黃瓜的冷靜交織，優雅且深沉。", recipe: "琴酒小黃瓜 50% + 琴酒 30% + 檸檬萊姆 20%", stats: {濃:3, 甜:1, 酸:3, 爽:5} }
+            { zh: "秋日茶亭", en: "Autumn Tea", img: "tea.png", intro: "焙茶與鮮奶交織，如同在秋季午後的榻榻米上，感受一抹溫潤的黃昏。", recipe: ["焙茶 50%", "鮮奶 30%", "黑糖 20%"], stats: {濃:4, 甜:3, 酸:1, 爽:2} },
+            { zh: "午夜電解質", en: "Midnight Fizz", img: "fizz.png", intro: "清爽的酸度伴隨氣泡感，像是在寂靜中點亮一盞螢光燈。", recipe: ["寶礦力 40%", "檸檬 30%", "蘇打 30%"], stats: {濃:4, 甜:2, 酸:5, 爽:4} },
+            { zh: "翠玉初戀", en: "Jade First Love", img: "jade.png", intro: "青澀酸甜的果香，如同初次見面時的驚鴻一瞥。", recipe: ["費約果 40%", "檸檬萊姆 30%", "百香果 30%"], stats: {濃:3, 甜:2, 酸:4, 爽:5} },
+            { zh: "小圓雲煙", en: "Maru's Fluffy", img: "fluffy.png", intro: "優格與甜薯的絲滑結合，把自己埋進最軟的雲朵裡。", recipe: ["優格 40%", "甜薯 30%", "綜合水果 30%"], stats: {濃:4, 甜:4, 酸:1, 爽:2} },
+            { zh: "烏薩奇之光", en: "Usagi Light", img: "usagi.png", intro: "純淨的桂花與茉莉，是混亂夜晚中唯一讓你平靜的光。", recipe: ["桂花 50%", "茉莉 30%", "紅茶 20%"], stats: {濃:2, 甜:3, 酸:1, 爽:4} },
+            { zh: "莫斯科紳士", en: "Moscow Gent", img: "gent.png", intro: "琴酒與小黃瓜的高冷基調，優雅且深沉。", recipe: ["琴酒小黃瓜 50%", "琴酒 30%", "檸檬萊姆 20%"], stats: {濃:3, 甜:1, 酸:3, 爽:5} }
         ];
 
         function createDots(score) {
             let h = ''; for(let i=1; i<=5; i++) h += `<div class="dot ${i<=score?'active':''}"></div>`; return h;
+        }
+
+        function switchPage(p) {
+            document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active-page'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            if(p === 'menu') {
+                document.getElementById('page-menu').classList.add('active-page');
+                document.getElementById('btn-menu').classList.add('active');
+            } else {
+                document.getElementById('page-custom').classList.add('active-page');
+                document.getElementById('btn-custom').classList.add('active');
+                renderCustom();
+            }
         }
 
         const container = document.getElementById('menu-container');
@@ -100,17 +225,38 @@
                 </div>`;
         });
 
-        let curPick = "", curRecipe = "";
+        const selectedFlavors = new Set();
+        function renderCustom() {
+            document.getElementById('blend-dark').innerHTML = darks.map(f => `<div class="blend-item ${selectedFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
+            document.getElementById('blend-jelly').innerHTML = jelliesOnly.map(f => `<div class="blend-item ${selectedFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
+            document.getElementById('blend-red').innerHTML = redLeaf.map(f => `<div class="blend-item ${selectedFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
+            document.getElementById('selection-display').innerText = selectedFlavors.size ? Array.from(selectedFlavors).join(' + ') : '無';
+        }
+
+        function toggleF(f) {
+            selectedFlavors.has(f) ? selectedFlavors.delete(f) : selectedFlavors.add(f);
+            renderCustom();
+        }
+
+        let curPick = "", curRecipeText = "";
         function openModal(i) {
-            const d = menuData[i]; curPick = d.zh; curRecipe = d.recipe;
-            document.getElementById('m-title').innerText = d.zh;
-            document.getElementById('m-intro').innerText = `「${d.intro}」`;
-            document.getElementById('m-recipe').innerHTML = `<strong>建議配方：</strong><br>${d.recipe}`;
+            const data = menuData[i];
+            curPick = data.zh; curRecipeText = data.recipe.join(' + ');
+            document.getElementById('m-title').innerText = data.zh;
+            document.getElementById('m-intro').innerText = `「${data.intro}」`;
+            document.getElementById('m-recipe-list').innerHTML = data.recipe.map(line => `<span class="recipe-line">· ${line}</span>`).join('');
             document.getElementById('modal').style.display = 'flex';
         }
         function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
         function confirmOrder() {
-            const msg = `【圓－休憩所】點購：${curPick}\n配方：${curRecipe}`;
+            const msg = `【圓－休憩所】我想點購：${curPick}\n配方：${curRecipeText}`;
+            window.location.href = `https://line.me/R/msg/text/?${encodeURIComponent(msg)}`;
+        }
+
+        function confirmCustomOrder() {
+            if (!selectedFlavors.size) return alert('請先選擇口味。');
+            const msg = `【圓－休憩所】我想點購自由調配：\n口味：${Array.from(selectedFlavors).join(' + ')}`;
             window.location.href = `https://line.me/R/msg/text/?${encodeURIComponent(msg)}`;
         }
     </script>
