@@ -2,136 +2,286 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>職人水煙調配譜</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>圓－休憩所 - Maru's Studio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <style>
-        /* 1. 全域背景與暖黃光暈 */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #0a0a0a;
-            color: #e0e0e0;
-            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+        :root {
+            --bg-dark: #0f0f0f; 
+            --ink-light: #e0e0e0; 
+            --gold: #d4a373; 
+            --accent: #8e9aaf; 
+            /* 調整為更濃厚的雲朵白 */
+            --smoke-white: rgba(255, 255, 255, 0.9); 
         }
 
-        .warm-glow {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(circle, rgba(255, 190, 60, 0.2) 0%, rgba(0,0,0,0) 70%);
+        body { 
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(212, 163, 115, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(212, 163, 115, 0.05) 0%, transparent 40%);
+            background-attachment: fixed;
+            color: var(--ink-light); 
+            font-family: "Noto Serif TC", serif; 
+            margin: 0; padding: 0; 
+            display: flex; flex-direction: column; align-items: center;
+            overflow-x: hidden; min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- 新增：暖黃色閃動光暈 --- */
+        .ambient-glow {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle, rgba(212, 163, 115, 0.15) 0%, transparent 70%);
             z-index: -2;
-            animation: pulseGlow 7s infinite alternate ease-in-out;
+            animation: breatheGlow 8s infinite alternate ease-in-out;
             pointer-events: none;
         }
-
-        @keyframes pulseGlow {
-            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+        @keyframes breatheGlow {
+            0% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.2); }
         }
 
-        /* 2. 一縷縷白色濃煙效果 */
-        .smoke-wisp {
-            position: fixed;
-            width: 90px; /* 寬度窄化成縷狀 */
-            background: linear-gradient(to top, 
-                rgba(255, 255, 255, 0) 0%, 
-                rgba(255, 255, 255, 0.95) 20%, 
-                rgba(255, 255, 255, 0.95) 80%, 
-                rgba(255, 255, 255, 0) 100%);
-            border-radius: 60px;
-            filter: blur(30px);
-            z-index: -1;
-            pointer-events: none;
-            animation: wispRising 14s ease-out infinite;
+        /* --- 修改：一縷縷的真實濃雲煙霧 --- */
+        .smoke-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+        .smoke-trace {
+            position: absolute;
+            /* 窄長縷狀背景 */
+            background: linear-gradient(to top, rgba(255,255,255,0) 0%, var(--smoke-white) 20%, var(--smoke-white) 80%, rgba(255,255,255,0) 100%);
+            filter: blur(35px);
+            border-radius: 40% 60% 40% 60%;
+            opacity: 0;
+            animation: smokeRise 15s infinite linear;
+        }
+        /* 縷狀尺寸調整 */
+        .s1 { width: 100px; height: 450px; bottom: -200px; left: 10%; animation-duration: 18s; }
+        .s2 { width: 120px; height: 500px; bottom: -220px; right: 15%; animation-duration: 22s; animation-delay: -5s; }
+        .s3 { width: 80px; height: 400px; bottom: -180px; left: 45%; animation-duration: 20s; animation-delay: -10s; }
+
+        @keyframes smokeRise {
+            0% { transform: translateY(0) scaleX(1) skewX(0deg); opacity: 0; }
+            15% { opacity: 0.8; }
+            50% { transform: translateY(-50vh) scaleX(1.8) skewX(15deg); opacity: 0.6; }
+            100% { transform: translateY(-110vh) scaleX(2.5) skewX(-20deg); opacity: 0; }
         }
 
-        @keyframes wispRising {
-            0% { 
-                transform: translateY(110vh) translateX(0) skewX(0deg) scaleX(1); 
-                opacity: 0; 
-            }
-            10% { opacity: 1; }
-            40% { 
-                /* 上升過程中的扭曲擺動感 */
-                transform: translateY(50vh) translateX(60px) skewX(12deg) scaleX(1.4); 
-            }
-            100% { 
-                transform: translateY(-130vh) translateX(-80px) skewX(-15deg) scaleX(2.5); 
-                opacity: 0; 
-            }
+        header { text-align: center; margin: 60px 0 40px; z-index: 10; }
+        h1 { font-size: 2.4rem; letter-spacing: 0.5em; color: var(--gold); margin: 0; text-indent: 0.5em; text-shadow: 0 0 20px rgba(212, 163, 115, 0.2); }
+        .eng-title { font-size: 0.75rem; letter-spacing: 0.4em; color: rgba(255,255,255,0.25); margin-top: 10px; }
+
+        .nav-tabs { display: flex; gap: 12px; margin-bottom: 35px; z-index: 10; }
+        .tab-btn { 
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 10px 24px; 
+            border-radius: 30px; cursor: pointer; color: #888; font-family: inherit; transition: 0.3s;
+        }
+        .tab-btn.active { background: var(--gold); color: #121212; font-weight: 600; border-color: var(--gold); }
+
+        .main-container {
+            width: 92%; max-width: 500px; 
+            background: rgba(30, 30, 30, 0.6); 
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px; padding: 45px 25px; 
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5); 
+            margin-bottom: 60px; box-sizing: border-box; z-index: 5;
         }
 
-        /* 3. 網頁 UI 排版（完全保留原樣） */
-        .container {
-            width: 90%;
-            max-width: 500px;
-            margin: 40px auto;
-            position: relative;
-            z-index: 1;
-        }
+        .page-content { display: none; }
+        .active-page { display: block !important; animation: fadeIn 0.6s ease; }
 
-        h1 {
-            color: #d4af37;
-            text-align: center;
-            letter-spacing: 5px;
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        .menu-list { display: flex; flex-direction: column; gap: 20px; }
+        .card { 
+            background: rgba(255, 255, 255, 0.03); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.05); 
+            padding: 28px 25px; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden;
         }
+        .card:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.06); }
 
-        .recipe-card {
-            background: rgba(28, 28, 28, 0.88);
-            border: 1px solid rgba(212, 175, 55, 0.25);
-            border-radius: 15px;
-            padding: 22px;
-            margin-bottom: 25px;
-            backdrop-filter: blur(12px);
-        }
+        .card-illustration { position: absolute; right: 15px; top: 15px; width: 65px; height: 65px; opacity: 0.7; filter: grayscale(0.2); }
+        .card-illustration img { width: 100%; height: auto; object-fit: contain; }
 
-        .recipe-name {
-            color: #d4af37;
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-            font-weight: bold;
-            border-left: 3px solid #d4af37;
-            padding-left: 10px;
-        }
+        .card-eng { font-size: 0.65rem; color: #666; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+        .card-title { font-size: 1.45rem; font-weight: 600; color: #fff; margin-bottom: 18px; padding-right: 60px; }
+        
+        .flavor-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 18px; }
+        .stat-row { display: flex; align-items: center; font-size: 0.85rem; color: #999; }
+        .dots { display: flex; gap: 5px; margin-left: 10px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #2a2a2a; }
+        .dot.active { background: var(--gold); box-shadow: 0 0 8px rgba(212, 163, 115, 0.6); }
 
-        .ingredient-tag {
-            background: rgba(255, 255, 255, 0.07);
-            margin: 6px 0;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 0.92rem;
-            display: flex;
-            justify-content: space-between;
+        .blend-section { background: rgba(0,0,0,0.25); padding: 25px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
+        .blend-title { font-weight: 600; margin-bottom: 18px; font-size: 1rem; color: var(--gold); }
+        .blend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; }
+        .blend-item { 
+            background: rgba(255,255,255,0.04); padding: 12px 5px; text-align: center; 
+            border-radius: 12px; font-size: 0.85rem; color: #999; border: 1px solid rgba(255,255,255,0.08); transition: 0.2s;
         }
+        .blend-item.selected { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; }
 
-        .recipe-desc {
-            font-size: 0.82rem;
-            color: #999;
-            margin-top: 12px;
-            line-height: 1.6;
-            font-style: italic;
+        .order-btn { 
+            background: var(--gold); color: #121212; border: none; 
+            padding: 20px; width: 100%; border-radius: 50px; 
+            font-weight: 600; cursor: pointer; font-size: 1.15rem; margin-top: 25px; font-family: inherit;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
+        
+        .selection-bar { background: rgba(0,0,0,0.4); padding: 18px; border-radius: 18px; border: 1px dashed var(--gold); margin-top: 15px; text-align: center; font-size: 0.9rem; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(12px); }
+        .modal-content { background: #1a1a1a; padding: 45px 30px; width: 85%; max-width: 400px; border-radius: 40px; text-align: center; border: 1px solid #333; }
+        .m-intro { font-size: 0.95rem; color: #999; margin: 25px 0; line-height: 1.7; font-style: italic; }
+        .m-recipe-container { background: #111; padding: 22px; border-radius: 22px; text-align: left; border: 1px solid #252525; }
+        .recipe-line { display: block; font-size: 0.95rem; color: #ccc; margin-bottom: 6px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .footer-note { text-align: center; color: #444; font-size: 0.8rem; margin-top: 40px; padding-bottom: 50px; letter-spacing: 0.2em; }
     </style>
 </head>
 <body>
 
-    <div class="warm-glow"></div>
+    <div class="ambient-glow"></div>
 
-    <div class="container">
-        <h1>專屬調配譜</h1>
-        <div id="recipe-container"></div>
+    <div class="smoke-container">
+        <div class="smoke-trace s1"></div>
+        <div class="smoke-trace s2"></div>
+        <div class="smoke-trace s3"></div>
+    </div>
+
+    <header>
+        <h1>圓－休憩所</h1>
+        <div class="eng-title">MARU'S SHISHA STUDIO</div>
+    </header>
+
+    <div class="nav-tabs">
+        <button id="btn-menu" class="tab-btn active" onclick="switchPage('menu')">職人煙譜</button>
+        <button id="btn-custom" class="tab-btn" onclick="switchPage('custom')">自由調配</button>
+    </div>
+
+    <div class="main-container">
+        <div id="page-menu" class="page-content active-page">
+            <div class="menu-list" id="menu-container"></div>
+        </div>
+
+        <div id="page-custom" class="page-content">
+            <div class="blend-section">
+                <div class="blend-title">✿ 黑草系列 (Dark Leaf)</div>
+                <div class="blend-grid" id="blend-dark"></div>
+            </div>
+            <div class="blend-section">
+                <div class="blend-title">✿ 果凍系列 (Jelly)</div>
+                <div class="blend-grid" id="blend-jelly"></div>
+            </div>
+            <div class="blend-section">
+                <div class="blend-title">✿ 紅草系列 (Red Leaf)</div>
+                <div class="blend-grid" id="blend-red"></div>
+            </div>
+            <div class="selection-bar">目前選擇：<br><span id="selection-display" style="font-weight: 600; color:var(--gold);">無</span></div>
+            <button class="order-btn" onclick="confirmCustomOrder()">確認調配 (發送訂單)</button>
+        </div>
+        <p class="footer-note">心、落ち着く。圓の意味。</p>
+    </div>
+
+    <div id="modal" class="modal" onclick="if(event.target==this)closeModal()">
+        <div class="modal-content">
+            <h2 id="m-title" style="color: var(--gold); margin:0;"></h2>
+            <div id="m-intro" class="m-intro"></div>
+            <div class="m-recipe-container">
+                <strong style="color:var(--gold); display:block; margin-bottom:12px; font-size:0.9rem;">職人配比建議：</strong>
+                <div id="m-recipe-list"></div>
+            </div>
+            <button class="order-btn" onclick="confirmOrder()">確認注文 (發送訂單)</button>
+            <p style="margin-top:25px; color:#555; cursor:pointer; font-size:0.9rem;" onclick="closeModal()">✕ 返回清單</p>
+        </div>
     </div>
 
     <script>
-        // 4. 精確配方：基於您擁有的 15 款煙草
-        const finalRecipes = [
-            {
-                name: "幽徑茶香 (Floral Tea)",
-                items: ["紅茶 50%", "茉莉花
+        const darks = ["茉莉花", "紅茶", "針葉", "琴酒小黃瓜", "綜合水果", "檸檬萊姆", "檸檬糖", "費約果檸檬水"];
+        const jelliesOnly = ["希臘優格", "甜薯", "咖啡", "桂花", "琴酒", "百香果石榴"];
+        const redLeaf = ["Paan Ras"];
+
+        // 更新後的 7 種專屬配方
+        const menuData = [
+            { zh: "茉莉紅韻", en: "Jasmine Black Tea", img: "tea.png", intro: "以紅茶為基底搭配茉莉與桂花，展現東方茶韻的優雅清香。", recipe: ["紅茶 50%", "茉莉花 30%", "桂花 20%"], stats: {濃:3, 甜:2, 酸:1, 爽:4} },
+            { zh: "琴酒黃瓜酷樂", en: "Gin Cucumber Cooler", img: "fizz.png", intro: "琴酒小黃瓜與萊姆的極致清爽，為炎熱夜晚帶來透亮感。", recipe: ["琴酒小黃瓜 60%", "琴酒 30%", "檸檬萊姆 10%"], stats: {濃:3, 甜:1, 酸:3, 爽:5} },
+            { zh: "希臘果昔", en: "Greek Fruit Smoothie", img: "jade.png", intro: "濃郁優格包裹熱帶果酸，絲滑且充滿活力的多層次體驗。", recipe: ["希臘優格 50%", "綜合水果 30%", "百香果石榴 20%"], stats: {濃:4, 甜:4, 酸:3, 爽:2} },
+            { zh: "費約果之森", en: "Feijoa Forest", img: "fluffy.png", intro: "獨特費約果香氣融合針葉微涼，彷彿置身清晨的森林步道。", recipe: ["費約果檸檬水 60%", "針葉 20%", "檸檬糖 20%"], stats: {濃:4, 甜:3, 酸:3, 爽:4} },
+            { zh: "深焙甜薯拿鐵", en: "Coffee Sweet Potato", img: "gent.png", intro: "咖啡焦香與甜薯溫潤甜韻，營造溫暖舒壓的午後時光。", recipe: ["咖啡 60%", "甜薯 40%"], stats: {濃:5, 甜:4, 酸:1, 爽:1} },
+            { zh: "香料幻境", en: "Mystic Paan", img: "usagi.png", intro: "紅草 Paan Ras 的強烈辛香，在綜合水果的酸甜下達成完美平衡。", recipe: ["Paan Ras 40%", "綜合水果 30%", "茉莉花 30%"], stats: {濃:5, 甜:2, 酸:2, 爽:4} },
+            { zh: "百香酸甜派對", en: "Passion Lemonade", img: "jade.png", intro: "極致的酸爽衝擊，百香果與檸檬萊姆點亮沉悶的味蕾。", recipe: ["百香果石榴 60%", "檸檬萊姆 20%", "檸檬糖 20%"], stats: {濃:3, 甜:2, 酸:5, 爽:4} }
+        ];
+
+        function createDots(score) {
+            let h = ''; for(let i=1; i<=5; i++) h += `<div class="dot ${i<=score?'active':''}"></div>`; return h;
+        }
+
+        function switchPage(p) {
+            document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active-page'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            if(p === 'menu') {
+                document.getElementById('page-menu').classList.add('active-page');
+                document.getElementById('btn-menu').classList.add('active');
+            } else {
+                document.getElementById('page-custom').classList.add('active-page');
+                document.getElementById('btn-custom').classList.add('active');
+                renderCustom();
+            }
+        }
+
+        const container = document.getElementById('menu-container');
+        menuData.forEach((r, i) => {
+            container.innerHTML += `
+                <div class="card" onclick="openModal(${i})">
+                    <div class="card-illustration"><img src="${r.img}" alt=""></div>
+                    <div class="card-eng">${r.en}</div>
+                    <div class="card-title">${r.zh}</div>
+                    <div class="flavor-stats">
+                        <div class="stat-row">濃 ${createDots(r.stats.濃)}</div>
+                        <div class="stat-row">甜 ${createDots(r.stats.甜)}</div>
+                        <div class="stat-row">酸 ${createDots(r.stats.酸)}</div>
+                        <div class="stat-row">爽 ${createDots(r.stats.爽)}</div>
+                    </div>
+                </div>`;
+        });
+
+        const selectedFlavors = new Set();
+        function renderCustom() {
+            document.getElementById('blend-dark').innerHTML = darks.map(f => `<div class="blend-item ${selectedFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
+            document.getElementById('blend-jelly').innerHTML = jelliesOnly.map(f => `<div class="blend-item ${selectedFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
+            document.getElementById('blend-red').innerHTML = redLeaf.map(f => `<div class="blend-item ${selectedFlavors.has(f)?'selected':''}" onclick="toggleF('${f}')">${f}</div>`).join('');
+            document.getElementById('selection-display').innerText = selectedFlavors.size ? Array.from(selectedFlavors).join(' + ') : '無';
+        }
+
+        function toggleF(f) {
+            selectedFlavors.has(f) ? selectedFlavors.delete(f) : selectedFlavors.add(f);
+            renderCustom();
+        }
+
+        let curPick = "", curRecipeText = "";
+        function openModal(i) {
+            const data = menuData[i];
+            curPick = data.zh; curRecipeText = data.recipe.join(' + ');
+            document.getElementById('m-title').innerText = data.zh;
+            document.getElementById('m-intro').innerText = `「${data.intro}」`;
+            document.getElementById('m-recipe-list').innerHTML = data.recipe.map(line => `<span class="recipe-line">· ${line}</span>`).join('');
+            document.getElementById('modal').style.display = 'flex';
+        }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+        function confirmOrder() {
+            const msg = `【圓－休憩所】我想點購職人煙譜：${curPick}\n配方參考：${curRecipeText}`;
+            window.location.href = `https://line.me/R/msg/text/?${encodeURIComponent(msg)}`;
+        }
+
+        function confirmCustomOrder() {
+            if (!selectedFlavors.size) return alert('請先選擇口味。');
+            const msg = `【圓－休憩所】我想點購自由調配：\n口味：${Array.from(selectedFlavors).join(' + ')}`;
+            window.location.href = `https://line.me/R/msg/text/?${encodeURIComponent(msg)}`;
+        }
+    </script>
+</body>
+</html>
